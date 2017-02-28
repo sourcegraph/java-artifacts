@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.simplericity</groupId>
+        <artifactId>simplericity</artifactId>
+        <version>1.5</version>
+    </parent>
+    <groupId>org.simplericity.macify</groupId>
+    <artifactId>macify</artifactId>
+    <packaging>jar</packaging>
+    <version>1.6</version>
+    <name>Macify library</name>
+
+    <description>
+       Provides simplified OS X integration for Mac OS X applications.
+    </description>
+
+    <scm>
+        <connection>scm:svn:http://simplericity.org/svn/simplericity/tags/macify-1.6</connection>
+        <url>http://simplericity.org/svn/simplericity/tags/macify-1.6</url>
+    </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

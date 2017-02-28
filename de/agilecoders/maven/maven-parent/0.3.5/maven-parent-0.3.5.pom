@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
+    <groupId>de.agilecoders.maven</groupId>
+    <artifactId>maven-parent</artifactId>
+    <version>0.3.5</version>
+    <packaging>pom</packaging>
+    <name>maven-parent</name>
+
+    <description>parent pom for all AgileCoders projects</description>
+
+    <url>http://agile-coders.github.io/agilecoders-parent-pom</url>
+
+    <organization>
+        <name>AgileCoders</name>
+        <url>https://agile-coders.github.com/</url>
+    </organization>
+
+    <inceptionYear>2011</inceptionYear>
+
+    <prerequisites>
+        <maven>3.0.3</maven>
+    </prerequisites>
+
+    <scm>
+        <connection>scm:git:git://github.com/agile-coders/agilecoders-parent-pom.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/agile-coders/agilecoders-parent-pom.git</developerConnection>
+        <url>https://github.com/agile-coders/agilecoders-parent-pom/</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <modules>
+        <module>maven-parent-config</module>
+        <module>maven-parent-pom</module>
+    </modules>
+
+    <properties>
+        <maven-gpg-plugin.version>1.4</maven-gpg-plugin.version>
+        <config.version>0.3.0</config.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>de.agilecoders.maven</groupId>
+                <artifactId>maven-parent-config</artifactId>
+                <version>${config.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.mycila.maven-license-plugin</groupId>
+                        <artifactId>maven-license-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

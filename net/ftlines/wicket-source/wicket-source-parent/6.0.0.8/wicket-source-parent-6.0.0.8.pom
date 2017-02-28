@@ -1,0 +1,49 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+	<groupId>net.ftlines.wicket-source</groupId>
+	<artifactId>wicket-source-parent</artifactId>
+	<version>6.0.0.8</version>
+	<packaging>pom</packaging>
+	<description>Wicket-source displays component instantiation location in an html attribute, speeding the modification of existing wicket pages. The only module required for maven dependency in your app is wicket-source itself, although a demo app is included.</description>
+	<name>Wicket Source With Plugins</name>
+	<url>https://github.com/42Lines/wicket-source/wiki</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	
+	<scm>
+		<connection>scm:git:git://github.com/42Lines/wicket-source.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/42Lines/wicket-source.git</developerConnection>
+		<url>http://github.com/42Lines/wicket-source</url>
+	</scm>
+
+	<developers>
+		<developer>
+			<id>jenny</id>
+			<name>Jenny Brown</name>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>-6</timezone>
+		</developer>
+	</developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<modules>
+		<module>wicket-source</module>
+		<module>wicket-source-demo</module>
+	</modules>
+
+</project>

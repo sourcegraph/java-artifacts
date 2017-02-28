@@ -1,0 +1,6 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Thu Feb 23 18:33:18 PST 2017
+maven-checkstyle-plugin-2.17.jar>central=
+maven-checkstyle-plugin-2.17.pom>central=
+maven-checkstyle-plugin-2.17.pom>apache=
+maven-checkstyle-plugin-2.17.jar>apache=

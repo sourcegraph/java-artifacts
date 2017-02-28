@@ -1,0 +1,242 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <!-- Project Information -->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>javax.measure</groupId>
+    <artifactId>jsr-275</artifactId>
+    <packaging>jar</packaging>
+    <version>0.9.1</version>
+    <name>JSR-275</name>
+    <url>http://jcp.org/en/jsr/detail?id=275</url>
+    <description>JSR-275 specifies Java packages for the programmatic handling
+    of physical quantities and their expression as numbers of units.
+    </description>
+    <licenses>
+        <license>
+            <name>BSD License</name>
+            <url>http://jscience.org/LICENSE.txt</url>
+        </license>
+    </licenses>
+    <organization>
+        <name>JScience</name>
+        <url>http://jscience.org</url>
+    </organization>
+    <scm>
+        <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvs:jsr-275</connection>
+        <developerConnection>scm:cvs:pserver:${maven.username}@cvs.dev.java.net:/cvs:jsr-275</developerConnection>
+        <url>https://jsr-275.dev.java.net/source/browse/jsr-275/</url>
+    </scm>
+    <dependencies>
+        <dependency> <!-- Validation tests -->
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+	<!-- ==================================================== -->
+	<!--     Developers and contributors                      -->
+	<!-- ==================================================== -->
+	<developers>
+	    <developer>
+	      <name>Jean-Marie Dautelle</name>
+	      <id>dautelle</id>
+	      <email>jean-marie@dautelle.com</email>
+	      <organization>Thales</organization>
+	      <organizationUrl>http://www.thalesraytheon-fr.com</organizationUrl>
+	      <timezone>CET</timezone>
+	      <roles>
+	        <role>Spec Lead</role>
+	        <role>Java Developer</role>
+	        <role>Architect</role>
+	      </roles>
+	    </developer>
+	    <developer>
+	      <name>Werner Keil</name>
+	      <id>cat</id>
+	      <organization>Creative Arts &amp; Technologies</organization>
+	      <organizationUrl>http://www.catmedia.us</organizationUrl>
+	      <email>jsr275@catmedia.us</email>
+	      <timezone>CET</timezone>
+	      <roles>
+	        <role>Spec Lead</role>
+	        <role>Architect</role>
+	        <role>Java Developer</role>
+	      </roles>
+	    </developer>
+	    <developer>
+	    	<name>Karen Legrand</name>
+	    	<organization>Innovation Emergency Management (IEM)</organization>
+	    	<organizationUrl>http://www.iem.com</organizationUrl>
+	    	 <email>karen.legrand@iem.com</email>
+	    	 <timezone>EST</timezone>
+	    	<roles>
+	        	<role>Architect</role>
+	        	<role>Java Developer</role>
+	      </roles>
+	    </developer> 
+	    <developer>
+	      <name>Chris Senior</name>
+	      <organization>Teradyne</organization>
+	      <email>chris.senior@teradyne.com</email>
+	      <roles>
+	        <role>Java Developer</role>
+	      </roles>
+	    </developer>
+	    <developer>
+	      <name>Daniel Leuck</name>
+	      <organization>Ikayzo</organization>
+	      <email>dan@ikayzo.com</email>
+	      <timezone>HST</timezone>
+	      <roles>
+	        <role>Java Developer</role>
+	      </roles>
+	    </developer>
+	    <developer>
+	      <name>Martin Desruisseaux</name>
+	      <id>desruisseaux</id>
+	      <email>desruisseaux@users.sourceforge.net</email>
+	      <organization>Institut de Recherche pour le Developpement (IRD)</organization>
+	      <timezone>CET</timezone>
+	      <roles>
+	        <role>Java Developer</role>
+	      </roles>
+	    </developer>
+	    <developer>
+	      <name>Michael Gruebsch</name>
+	      <email>michael@mkm-rabis.de</email>
+	      <roles>
+	        <role>Java Developer</role>
+	      </roles>
+	    </developer>
+	    <developer>
+	    	<name>Eric Russell</name>
+	    	<email>eric-r@northwestern.edu</email>
+	    	<timezone>CDT</timezone>
+	    	<roles>
+	        	<role>Java Developer</role>
+	      </roles>
+	    </developer>
+	  </developers>
+	  
+	  <contributors>
+	       <contributor>
+	      <name>Brian Frank</name>
+	      <organization>Tridium</organization>
+	      <email>bfrank@tridium.com</email>
+	      <roles>
+	        <role>EG Member</role>
+	      </roles>
+	    </contributor>
+	    <contributor>
+	      <name>Bruce Hamilton</name>
+	      <organization>Agilent</organization>
+	      <email>bruce_hamilton@agilent.com</email>
+	      <roles>
+	        <role>EG Member</role>
+	      </roles>
+	    </contributor>
+	    <contributor>
+	      <name>Chris Downey</name>
+	      <email>cdowney@gmail.com</email>
+	      <roles>
+	        <role>EG Member</role>
+	      </roles>
+	    </contributor>
+	    <contributor>
+	      <name>John Murray</name>
+	      <organization>Sobetech</organization>
+	      <email>john.murray@sobetech.com</email>
+	      <roles>
+	        <role>EG Member</role>
+	      </roles>
+	    </contributor>
+	    <contributor>
+	    	<name>Gordan Vosicki</name>
+	    	<roles>
+	        	<role>EG Member</role>
+	      	</roles>
+	    </contributor>
+	    <contributor>
+	    	<name>Steve Metsker</name>
+	    	<organization>CapTech Ventures</organization>
+	    	<roles>
+	    		<role>Spec Lead (Emeritus)</role>
+	    	</roles>
+	    </contributor>
+	</contributors>
+
+    <!-- Build Settings -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.javolution</groupId>
+                <artifactId>colapi</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>colorize</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.jvnet.wagon-svn</groupId>
+                <artifactId>wagon-svn</artifactId>
+                <version>1.9</version>
+            </extension>
+        </extensions>
+    </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <docfilessubdirs>true</docfilessubdirs>
+                    <quiet>true</quiet>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <!-- Environment Settings -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net Repository for Maven</name>
+            <url>http://download.java.net/maven/2/</url>
+        </pluginRepository>
+    </pluginRepositories>
+    <distributionManagement>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>java.net-maven2-repository</id>
+            <url>java-net:/maven2-repository/trunk/repository/</url>
+        </repository>
+    </distributionManagement>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+</project>

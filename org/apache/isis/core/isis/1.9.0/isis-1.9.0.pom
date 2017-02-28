@@ -1,0 +1,2257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>15</version>
+        <relativePath />
+    </parent>
+
+    <groupId>org.apache.isis.core</groupId>
+    <artifactId>isis</artifactId>
+    <version>1.9.0</version>
+    
+    <packaging>pom</packaging>
+
+    <name>Apache Isis</name>
+
+    <description>
+        Core framework, providing metamodel, runtime and core APIs.
+
+        Also defines standard build process, as well as
+        standard set of 3rd party dependencies (eg for testing and 
+        logging frameworks).
+    </description>
+
+    <inceptionYear>2010</inceptionYear>
+
+    <prerequisites>
+        <maven>3.0.4</maven>
+    </prerequisites>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- override in each module (used by locate global resources) -->
+
+        <!-- relative to root of mvn site -->
+        <siteBaseDir>.</siteBaseDir>
+        <relativeUrl />
+
+        <!-- relative to core/pom.xml -->
+        <coreBaseRelDir>.</coreBaseRelDir>
+        
+        <testsToInclude>**/*Test_*.java</testsToInclude>
+        <testsToExclude>**/*IntegrationTest.java</testsToExclude>
+
+        <!-- remaining properties should not need to be overridden -->
+        <compileSource>1.7</compileSource>
+        <compileTarget>1.7</compileTarget>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <dependency.locations.enabled>false</dependency.locations.enabled>
+        <coreBaseDir>${project.build.directory}/../${coreBaseRelDir}</coreBaseDir>
+        <checkstyle.configLocation>${coreBaseDir}/src/site/resources/codequality/checkstyle.xml</checkstyle.configLocation>
+        <pmd.ruleset>${coreBaseDir}/src/site/resources/codequality/pmd.xml</pmd.ruleset>
+
+        <projectUrl>${project.url}</projectUrl>
+
+        <license.additional-notes>In addition, Isis uses some Javascript libraries:
+* Twitter Bootstrap, licensed under MIT [1]
+* Bootstrap-Growl (JQuery plugin), licensed under MIT license [2]
+* LiveQuery (JQuery plugin), licensed under MIT license [3]
+* Wicket Bootstrap, licenced under ASL 2 [4]
+* Bootstrap Datetimepicker, licenced under MIT licence [5]
+* Moment.js, licenced under MIT licence [6]
+
+[1] https://github.com/twbs/bootstrap/blob/master/LICENSE
+[2] https://github.com/mouse0270/bootstrap-growl/blob/master/LICENSE
+[3] https://github.com/brandonaaron/livequery#license
+[4] https://github.com/l0rdn1kk0n/wicket-bootstrap
+[5] https://github.com/Eonasdan/bootstrap-datetimepicker/blob/master/LICENSE
+[6] https://github.com/moment/moment/blob/develop/LICENSE</license.additional-notes>
+
+        <!-- Datanucleus Objectstore -->
+        <jdo-api.version>3.1</jdo-api.version>
+        <datanucleus-core.version>4.1.2</datanucleus-core.version>
+        <datanucleus-api-jdo.version>4.1.0-release</datanucleus-api-jdo.version>
+        <datanucleus-jdo-query.version>4.0.4</datanucleus-jdo-query.version>
+        <datanucleus-rdbms.version>4.1.2</datanucleus-rdbms.version>
+
+        <datanucleus-jodatime.version>4.1.0-release</datanucleus-jodatime.version>
+        <datanucleus-maven-plugin.version>4.0.1</datanucleus-maven-plugin.version>
+
+        <shiro.version>1.2.3</shiro.version>
+
+        <slf4j.version>1.7.10</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+
+        <joda-time.version>2.3</joda-time.version>
+        <guava.version>16.0.1</guava.version>
+
+        <hamcrest.version>1.3</hamcrest.version>
+
+        <objenesis.version>1.4</objenesis.version>
+        <javassist.version>3.19.0-GA</javassist.version>
+        <reflections.version>0.9.9</reflections.version>
+
+        <commons-logging.version>1.1.2</commons-logging.version>
+        <commons-cli.version>1.2</commons-cli.version>
+        <commons-httpclient.version>3.1</commons-httpclient.version>
+        <commons-codec.version>1.9</commons-codec.version>
+
+        <jackson.version>2.5.0</jackson.version>
+        <gson.version>2.3.1</gson.version>
+
+        <!-- using 2.3.2 throws strange error about not finding org.hsqldb.jdbcDriver -->
+        <hsqldb.version>2.3.1</hsqldb.version>
+        <log4jdbc-remix.version>0.2.7</log4jdbc-remix.version>
+        <resteasy-jaxrs.version>3.0.11.Final</resteasy-jaxrs.version>
+
+        <jetty.version>9.2.11.v20150529</jetty.version>
+
+        <wicket.version>6.17.0</wicket.version>
+        <wicketstuff.version>6.17.0</wicketstuff.version>
+
+        <wicket-webjars.version>0.4.3</wicket-webjars.version>
+        <wicket-bootstrap.version>0.9.7</wicket-bootstrap.version>
+        <wicket-source.version>6.0.0.8</wicket-source.version>
+
+        <wicket-select2.version>2.2.3</wicket-select2.version>
+        <select2.version>3.5.1</select2.version>
+        <jquery-ui.version>1.10.4</jquery-ui.version>
+
+        <guice.version>3.0</guice.version>
+        <picocontainer.version>2.14.3</picocontainer.version>
+
+        <dom4j.version>1.6.1</dom4j.version>
+        <jdom.version>2.0.2</jdom.version>
+        <xstream.version>1.4.7</xstream.version>
+        <htmlparser.version>2.1</htmlparser.version>
+
+        <junit.version>4.12</junit.version>
+        <jmock.version>2.6.0</jmock.version>
+        <easymock.version>2.5.2</easymock.version>
+        <cucumber.version>1.1.5</cucumber.version>
+
+        <geronimo-jsp_2.1_spec.version>1.0.1</geronimo-jsp_2.1_spec.version>
+        <geronimo-jta_1.1_spec.version>1.1.1</geronimo-jta_1.1_spec.version>
+        <geronimo-jta_1.0.1B_spec.version>1.1.1</geronimo-jta_1.0.1B_spec.version>
+        <geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
+        <geronimo-annotation_1.0_spec.version>1.1.1</geronimo-annotation_1.0_spec.version>
+        <geronimo-activation_1.1_spec.version>1.1</geronimo-activation_1.1_spec.version>
+        <geronimo-javamail_1.4_spec.version>1.7.1</geronimo-javamail_1.4_spec.version>
+        <geronimo-atinject_1.0_spec.version>1.0</geronimo-atinject_1.0_spec.version>
+        <geronimo-jcdi_1.0_spec.version>1.0</geronimo-jcdi_1.0_spec.version>
+        <validation-api.version>1.1.0.Final</validation-api.version>
+    </properties>
+
+    <scm>
+        <connection>scm:git:http://git.apache.org/isis.git/core</connection>
+        <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/isis.git/trunk/framework/</developerConnection>
+        <url>git://git.apache.org/isis.git/core</url>
+      <tag>isis-1.9.0</tag>
+  </scm>
+
+    <!-- used in Site generation for relative references. -->
+    <url>http://isis.apache.org/${relativeUrl}</url>
+
+    <mailingLists>
+        <mailingList>
+            <name>developers</name>
+            <archive>http://mail-archives.apache.org/mod_mbox/isis-dev/</archive>
+            <post>dev@isis.apache.org</post>
+            <subscribe>dev-subscribe@isis.apache.org</subscribe>
+            <unsubscribe>dev-unsubscribe@isis.apache.org</unsubscribe>
+        </mailingList>
+        <mailingList>
+            <name>users</name>
+            <archive>http://mail-archives.apache.org/mod_mbox/isis-users/</archive>
+            <post>users@isis.apache.org</post>
+            <subscribe>users-subscribe@isis.apache.org</subscribe>
+            <unsubscribe>users-unsubscribe@isis.apache.org</unsubscribe>
+        </mailingList>
+    </mailingLists>
+
+    <developers>
+        <developer>
+            <id>danhaywood</id>
+            <name>Dan Haywood</name>
+            <email>danhaywood@apache.org</email>
+            <roles>
+                <role>pmc chair</role>
+                <role>pmc</role>
+                <role>committer</role>
+            </roles>
+            <timezone>+0</timezone>
+        </developer>
+        <developer>
+            <id>dslaughter</id>
+            <name>Dave Slaughter</name>
+            <email>dslaughter@apache.org</email>
+            <roles>
+                <role>pmc</role>
+                <role>committer</role>
+            </roles>
+            <timezone>-6</timezone>
+        </developer>
+        <developer>
+            <id>jcvanderwal</id>
+            <name>Jeroen van der Wal</name>
+            <email>jeroen@stromboli.it</email>
+            <roles>
+                <role>pmc</role>
+                <role>committer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>kevin</id>
+            <name>Kevin Meyer</name>
+            <email>kevin@apache.org</email>
+            <roles>
+                <role>pmc</role>
+                <role>committer</role>
+            </roles>
+            <timezone>+2</timezone>
+        </developer>
+        <developer>
+            <id>madytyoo</id>
+            <name>Maurizio Taverna</name>
+            <email>tavernamaurizio@gmail.com</email>
+            <roles>
+                <role>pmc</role>
+                <role>committer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>mgrigorov</id>
+            <name>Martin Grigorov</name>
+            <email>mgrigorov@apache.org</email>
+            <roles>
+                <role>pmc</role>
+                <role>committer</role>
+            </roles>
+            <timezone>+2</timezone>
+        </developer>
+        <developer>
+            <id>mnour</id>
+            <name>Mohammad Nour El-Din</name>
+            <email>mnour@apache.org</email>
+            <roles>
+                <role>pmc</role>
+                <role>mentor while incubating</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>oscarbou</id>
+            <name>Oscar Bou</name>
+            <email>o.bou@gesconsultor.com</email>
+            <roles>
+                <role>pmc</role>
+                <role>committer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>rcmatthews</id>
+            <name>Robert Matthews</name>
+            <email>rmatthews@apache.org</email>
+            <roles>
+                <role>pmc</role>
+                <role>committer</role>
+            </roles>
+            <timezone>+0</timezone>
+        </developer>
+        <developer>
+            <id>struberg</id>
+            <name>Mark Struberg</name>
+            <email>struberg@apache.org</email>
+            <roles>
+                <role>pmc</role>
+                <role>mentor while incubating</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>themalkolm</id>
+            <name>Alexander Krasnuhkin</name>
+            <email>themalkolm@apache.org</email>
+            <roles>
+                <role>pmc</role>
+                <role>committer</role>
+            </roles>
+            <timezone>+3</timezone>
+        </developer>
+    </developers>
+
+
+
+    <issueManagement>
+        <system>Jira</system>
+        <url>https://issues.apache.org/jira/browse/ISIS</url>
+    </issueManagement>
+
+    <ciManagement>
+        <system>CI</system>
+        <url>https://builds.apache.org/job/isis-core-ubuntu</url>
+        <notifiers>
+            <notifier>
+                <type>mail</type>
+                <address>dev@isis.apache.org</address>
+                <!--
+                <sendOnError />
+                <sendOnFailure />
+                <sendOnSuccess />
+                <sendOnWarning />
+                -->
+                <configuration />
+            </notifier>
+        </notifiers>
+    </ciManagement>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>DataNucleus_2</id>
+            <url>http://www.datanucleus.org/downloads/maven2/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+
+    <repositories>
+        <repository>
+            <id>Apache Repository</id>
+            <url>https://repository.apache.org/</url>
+            <snapshots>
+              <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>JBoss Public Release</id>
+            <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+            <snapshots>
+              <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>datanucleus-nightly</id>
+            <url>http://www.datanucleus.org/downloads/maven2-nightly/</url>
+            <snapshots>
+              <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+        <!-- required for RestEasy -->
+        <repository>
+            <id>jboss</id>
+            <url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+            <snapshots>
+              <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net Repository for Maven</name>
+            <url>http://download.java.net/maven/2/</url>
+            <layout>default</layout>
+            <snapshots>
+              <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>maven-repository.dev.java.net</id>
+            <name>Java.net Maven 1 Repository (legacy)</name>
+            <url>http://download.java.net/maven/1</url>
+            <snapshots>
+              <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
+    </repositories>
+
+    
+
+    <build>
+        <outputDirectory>${project.build.directory}/classes</outputDirectory>
+        <testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory>
+        
+        <extensions>
+            <!-- scp and sftp support for deployments. -->
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.4</version>
+            </extension>
+            <!-- ftp support for deployments. -->
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>2.4</version>
+            </extension>
+            <extension>
+                <groupId>org.apache.maven.archetype</groupId>
+                <artifactId>archetype-packaging</artifactId>
+                <version>2.2</version>
+            </extension>
+        </extensions>
+
+        <pluginManagement>
+            <!-- defines versions of plugins and the configuration for their 
+                non-reporting goals. Configuration of any reporting goals (aka reports) will 
+                be found in the reporting section. -->
+            <plugins>
+
+                <!-- Apache Release Audit Tool -->
+                <plugin>
+                    <groupId>org.apache.rat</groupId>
+                    <artifactId>apache-rat-plugin</artifactId>
+                    <version>0.10</version>
+                    <configuration>
+                        <addDefaultLicenseMatchers>true</addDefaultLicenseMatchers>
+                        <excludeSubProjects>true</excludeSubProjects>
+                        <excludes>
+                            <exclude>**/target/**</exclude>
+                            <exclude>**/target-ide/**</exclude>
+
+                            <exclude>**/*.project</exclude>
+                            <exclude>**/.classpath</exclude>
+                            <exclude>**/.settings/**</exclude>
+                            <exclude>**/*.launch</exclude>
+                            <exclude>src/site/resources/ide/eclipse/**</exclude>
+
+                            <exclude>**/*.pdn</exclude>
+                            <exclude>**/*.svg</exclude>
+                            <exclude>**/*.json</exclude>
+                            <exclude>**/*.min.js</exclude>
+                            
+                            <exclude>**/MANIFEST.MF</exclude>
+                            <exclude>**/*.ucd</exclude>
+                            <exclude>**/*.ucls</exclude>
+
+                            <exclude>**/xml/objects/**</exclude>
+                            <exclude>**/test.data</exclude>
+                            <exclude>**/fixture-data/**</exclude>
+
+                            <exclude>**/jquery.zclip.js</exclude>
+                            <exclude>**/bootstrap-growl.js</exclude>
+                            <exclude>**/moment.js</exclude>
+
+                            <exclude>**/bootstrap-datetimepicker.min.css</exclude>
+                            <exclude>**/bootstrap-datetimepicker.css</exclude>
+                            <exclude>**/select2-bootstrap.css</exclude>
+
+                            <exclude>**/src/main/appended-resources/supplemental-models.xml</exclude>
+                            <exclude>**/datanucleus.log</exclude>
+                        </excludes>
+                        <licenses>
+                          <license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">
+                            <licenseFamilyCategory>AL2  </licenseFamilyCategory>
+                            <licenseFamilyName>Apache License 2.0</licenseFamilyName>
+                            <notes />
+                            <patterns>
+                              <pattern>Licensed to the Apache Software Foundation (ASF) under one</pattern>
+                            </patterns>
+                          </license>
+                          <license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">
+                            <licenseFamilyCategory>JQRY</licenseFamilyCategory>
+                            <licenseFamilyName>MIT  </licenseFamilyName>
+                            <notes />
+                            <patterns>
+                              <pattern>Dual licensed under the MIT</pattern>
+                            </patterns>
+                          </license>
+                          <license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">
+                            <licenseFamilyCategory>JMOCK</licenseFamilyCategory>
+                            <licenseFamilyName>JMock</licenseFamilyName>
+                            <notes />
+                            <patterns>
+                              <pattern>Copyright (c) 2000-2007, jMock.org</pattern>
+                            </patterns>
+                          </license>
+                          <license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">
+                            <licenseFamilyCategory>DOCBK</licenseFamilyCategory>
+                            <licenseFamilyName>DocBook 4.5</licenseFamilyName>
+                            <notes />
+                            <patterns>
+                              <pattern>Permission to copy in any form is granted for use</pattern>
+                              <pattern>Permission to use, copy, modify and distribute the DocBook DTD</pattern>
+                              <pattern>is hereby granted in perpetuity, provided that the above copyright</pattern>
+                              <pattern>This is the catalog data file for DocBook XML V4.5. It is provided as</pattern>
+                              <pattern>XML Catalog data for DocBook XML V4.5</pattern>
+                              <pattern>DocBook additional general entities V4.5</pattern>
+                              <pattern>XML EXCHANGE TABLE MODEL DECLARATION MODULE</pattern>
+                            </patterns>
+                          </license>
+                          <license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">
+                            <licenseFamilyCategory>W3C  </licenseFamilyCategory>
+                            <licenseFamilyName>XHTML</licenseFamilyName>
+                            <notes />
+                            <patterns>
+                              <pattern>Copyright (c) 1998-2002 W3C (MIT, INRIA, Keio),</pattern>
+                            </patterns>
+                          </license>
+                        </licenses>
+                        <licenseFamilies>
+                          <licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">
+                            <familyName>Apache License 2.0</familyName>
+                          </licenseFamily>
+                          <licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">
+                            <familyName>MIT</familyName>
+                          </licenseFamily>
+                          <licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">
+                            <familyName>JMock</familyName>
+                          </licenseFamily>
+                          <licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">
+                            <familyName>DocBook 4.5</familyName>
+                          </licenseFamily>
+                          <licenseFamily implementation="org.apache.rat.license.SimpleLicenseFamily">
+                            <familyName>XHTML</familyName>
+                          </licenseFamily>
+                        </licenseFamilies>
+                    </configuration>
+                </plugin>
+
+
+                <!-- IDE support for Eclipse (if not using m2e).
+                    (NetBeans 6.7+ and IDEA 7.0+ also have built-in support
+                    -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-eclipse-plugin</artifactId>
+                    <version>2.5.1</version> <!-- version 2.7 & 2.8 presently have a bug that prevents multiple-resources; 
+                        while 2.6 fails to use projectNameTemplate properly from being filtered -->
+                    <configuration>
+                        <downloadSources>true</downloadSources>
+                        <downloadJavadocs>true</downloadJavadocs>
+                        <projectNameTemplate>[groupId].[artifactId]</projectNameTemplate>
+                    </configuration>
+                    <!-- use mvn eclipse:eclipse (no goals bound to phases) -->
+                </plugin>
+
+                <!-- Copies project resources to the output directory -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.6</version>
+                    <!-- goal:resources binds to phase:process-resources -->
+                    <!-- goal:testResources binds to phase:process-test-resources -->
+                </plugin>
+
+                <!-- Compile -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                    <configuration>
+                        <showDeprecation>false</showDeprecation>
+                        <showWarnings>false</showWarnings>
+                        <source>${compileSource}</source>
+                        <target>${compileTarget}</target>
+                    </configuration>
+                    <!-- goal:compile binds to phase:compile -->
+                    <!-- goal:testCompile binds to phase:test-compile -->
+                </plugin>
+
+                
+                <!-- Tests (ignore integration tests)-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.16</version>
+                    <configuration>
+                    <!-- 
+                        <includes>
+                            <include>**/Test*.java</include>
+                            <include>**/*Test.java</include>
+                            <include>**/*TestCase.java</include>
+                            <include>**/*Test_*.java</include>
+                        </includes>
+                     -->
+                        <excludes>
+                            <exclude>${testsToExclude}</exclude>
+                        </excludes>
+                        <printSummary>false</printSummary>
+                    </configuration>
+                    <!-- goal:test binds to phase:test -->
+                </plugin>
+                
+                
+                <!-- Test Reporting -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-report-plugin</artifactId>
+                    <version>2.16</version>
+                    <!-- goal:report is a report so is configured in the 
+                        reporting section; invokes phase:test before running itself -->
+                </plugin>
+
+
+                <!-- Test coverage: cobertura -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>2.6</version>
+                    <inherited>true</inherited>
+                    <!-- goal:check binds to phase:verify (not currently 
+                        configured, can be used to break build if code coverage < threshold) -->
+                    <!-- goal:cobertura is a report so is configured in the 
+                        reporting section; invokes phase:test before running itself -->
+                </plugin>
+
+
+                <!-- Quality checks: checkstyle -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>2.11</version>
+                    <!-- goal:check binds to phase:verify (not currently 
+                        configured, can be used to break build if any violations) -->
+                    <!-- goal:checkstyle is a report so is configured in 
+                        the reporting section -->
+                </plugin>
+
+                <!-- Quality checks: pmd -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-pmd-plugin</artifactId>
+                    <version>3.0.1</version>
+                    <!-- goal:check binds to phase:verify (not currently 
+                        configured, can be used to break build if any violations) -->
+                    <!-- goal:check-cpd binds to phase:verify (not currently 
+                        configured, can be used to break build if any CPD violations) -->
+                    <!-- goal:pmd is a report so is configured in the reporting 
+                        section -->
+                    <!-- goal:cpd is a report so is configured in the reporting 
+                        section -->
+                </plugin>
+
+                <!-- Quality checks: NCSS (cyclomatic complexity) -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>javancss-maven-plugin</artifactId>
+                    <version>2.0</version>
+                    <!-- goal:check binds to phase:verify (not currently 
+                        configured, can be used to break build if any violations) -->
+                    <!-- goal:report is a report so is configured in the 
+                        reporting section -->
+                </plugin>
+
+                <!-- Quality checks: jdepend -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>jdepend-maven-plugin</artifactId>
+                    <version>2.0-beta-2</version>
+                    <!-- goal:generate is a report so is configured in the 
+                        reporting section -->
+                </plugin>
+
+                <!-- Artifacts derived from code: taglist -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>taglist-maven-plugin</artifactId>
+                    <version>2.4</version>
+                    <inherited>true</inherited>
+                    <!-- goal:taglist is a report so is configured in the 
+                        reporting section -->
+                </plugin>
+
+                <!-- Artifacts derived from code: javadoc; supports both 
+                    build and report goals; not included as a build plugin except through profiles 
+                    (to speed up the build) -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.9.1</version>
+                    <inherited>true</inherited>
+                    <configuration>
+                        <!-- as per http://stackoverflow.com/a/16743137/56880 -->
+                        <additionalparam>-Xdoclint:none</additionalparam>
+                        <debug>true</debug>
+                        <minmemory>128m</minmemory>      
+                        <maxmemory>1024m</maxmemory>
+                        <quiet>true</quiet>
+                        <doctitle>${project.name} ${project.version}</doctitle>
+                        <windowtitle>${project.name} ${project.version}</windowtitle>
+                        <testDoctitle>${project.name} ${project.version}
+                            (TEST API)
+                        </testDoctitle>
+                        <testWindowtitle>${project.name}
+                            ${project.version} (TEST API)
+                        </testWindowtitle>
+                        <splitindex>true</splitindex>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <links>
+                            <link>http://docs.oracle.com/javase/7/docs/api/</link>
+                            <link>http://docs.oracle.com/javase/6/docs/api/</link>
+                            <link>http://docs.oracle.com/javase/1.5.0/docs/api/</link>
+                            <link>http://docs.oracle.com/javase/1.4.2/docs/api/</link>
+                        </links>
+                        <linksource>true</linksource>
+                        <!-- http://jira.codehaus.org/browse/MJAVADOC-268 
+                            and http://jira.codehaus.org/browse/MJAVADOC-284 -->
+                        <detectOfflineLinks>false</detectOfflineLinks>
+                    </configuration>
+                    <!-- goal:aggregate (for aggregator modules) has no binding;
+                        explicitly bound in profiles -->
+                    <!-- goal:jar (for non-aggregator modules) binds to phase:package -->
+                    <!-- goal:test-jar (for non-aggregator modules) binds 
+                        to phase:package -->
+                    <!-- goal:javadoc is a report so is configured in the 
+                        reporting section -->
+                </plugin>
+
+
+                <!-- Artifacts derived from code: Java source x-ref -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jxr-plugin</artifactId>
+                    <version>2.4</version>
+                    <!-- goal:jxr is a report so is configured in the reporting 
+                        section -->
+                </plugin>
+
+
+                <!-- Packaging: source jars of main and test code -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.2.1</version>
+                    <configuration>
+                        <includePom>true</includePom>
+                    </configuration>
+                    <!-- goal:aggregate (for aggregator modules) binds to 
+                        phase:package -->
+                    <!-- goal:jar and goal:test-jar are meant to bind to 
+                        phase:package, but doesn't seem to so bound explicitly -->
+                    <executions>
+                        <execution>
+                            <id>package-jars</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>jar</goal>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+
+                <!-- Packaging: jar -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.4</version>
+                    <!-- goal:jar binds to phase:package -->
+                    <!-- goal:test-jar supposedly binds to phase:package, 
+                        but seems to need this explicit binding. -->
+                    <executions>
+                        <execution>
+                            <id>package-test-jar</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+
+                <!-- Packaging: WAR -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.4</version>
+                    <configuration>
+                        <warSourceExcludes>
+                            WEB-INF/lib/*.jar
+                        </warSourceExcludes>
+                        <archive>
+                            <manifest>
+                                <addClasspath>true</addClasspath>
+                                <classpathPrefix>lib/</classpathPrefix>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                    <!-- goal:war binds to phase:package -->
+                </plugin>
+
+                <!-- site (see also reporting and distributionManagement) -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.3</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.doxia</groupId>
+                            <artifactId>doxia-module-docbook-simple</artifactId>
+                            <version>1.1.3</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <locales>en</locales>
+                        <jarOutputDirectory>
+                            ${project.build.directory}/site
+                        </jarOutputDirectory>
+                        <finalName>isis-${project.version}</finalName>
+                        <jarOutputDirectory>
+                            ${project.reporting.outputDirectory}
+                        </jarOutputDirectory>
+                        <generateReports>true</generateReports>
+                        <generateSitemap>true</generateSitemap>
+                        <reportPlugins>
+                            <!-- as per http://stackoverflow.com/a/22981151/56880 -->
+                            <plugin>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <artifactId>maven-javadoc-plugin</artifactId>
+                                <configuration>
+                                    <additionalparam>-Xdoclint:none</additionalparam>
+                                </configuration>
+                            </plugin>
+                        </reportPlugins>
+                    </configuration>
+                    <!-- goal:jar binds to phase:package; override to bind 
+                        to (site lifecycle) phase:site -->
+                    <executions>
+                        <execution>
+                            <id>jar</id>
+                            <phase>site</phase>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <!-- goal:site binds to (site lifecycle) phase:site -->
+                    <!-- goal:deploy binds to (site lifecycle) phase:site-deploy -->
+                </plugin>
+
+
+                <!-- maven reports (for site) -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>2.7</version>
+                    <!-- main configuration in reporting section (in inheriting 
+                        modules) -->
+                </plugin>
+
+
+                <!-- release (is also configured in descendant modules) -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.2</version>
+                    <configuration>
+                        <!-- overriddes the default ('clean verify') as workaround -->
+                        <preparationGoals>clean install</preparationGoals>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <localCheckout>true</localCheckout>
+                        <pushChanges>false</pushChanges>
+                        <waitBeforeTagging>1</waitBeforeTagging>
+                    </configuration>
+                    <!-- goal:clean (for aggregator modules) has no bindings; 
+                        cleans up release.properties and any backup POM files -->
+                    <!-- goal:prepare (for aggregator modules) has no bindings; 
+                        prepares for release in SCM (modifying x.x-SNAPSHOT to x.x) -->
+                    <!-- goal:update-versions (for aggregator modules) has 
+                        no bindings; updates versions eg to SNAPSHOT -->
+                    <!-- etc; none of the goals has a binding. -->
+                </plugin>
+
+
+                <!-- deploy (see also distributionManagement) -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.1</version>
+                    <!-- goal:deploy binds to phase:deploy -->
+                </plugin>
+
+
+                <!-- other types of build: archetype -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-archetype-plugin</artifactId>
+                    <version>2.2</version>
+                    <extensions>true</extensions>
+                    <!-- no goals bind to any lifecycle phases; use mvn archetype:generate -->
+                </plugin>
+
+
+                <!-- Runtime: jetty -->
+                <plugin>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>maven-jetty-plugin</artifactId>
+                    <version>${jetty.version}</version>
+                    <configuration>
+                        <webAppConfig>
+                            <contextPath>webapp</contextPath>
+                        </webAppConfig>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>1.3.1</version>
+                    <configuration>
+                        <rules>
+                            <requireMavenVersion>
+                                <version>[3.0.4,)</version>
+                            </requireMavenVersion>
+                            <requireJavaVersion>
+                                <version>[1.8.0,)</version>
+                            </requireJavaVersion>
+                            <requirePluginVersions>
+                                <message>All plugin versions must be
+                                    defined!</message>
+                                <banLatest>true</banLatest>
+                                <banRelease>true</banRelease>
+                            </requirePluginVersions>
+                            <DependencyConvergence />
+                        </rules>
+                    </configuration>
+                    <!-- goal:enforce supposedly binds to phase:validate, 
+                        but explicit binding seems to be required -->
+                    <executions>
+                        <execution>
+                            <id>validate-enforce</id>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>2.5</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.5.1</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
+        <!-- build plugins; apply to all inheriting modules. Note that some 
+            plugins also come from the "super-POM" for the default bindings. For example, 
+            in the 'default' lifecycle, the resources, compiler, surefire, jar, install 
+            and deploy plugins are automatically included because they provide the default 
+            bindings. For the 'site' lifecycle, the site plugin is automatically included. -->
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-remote-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>process-remote-resources</id>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                        <configuration>
+                            <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
+                            <appendedResourcesDirectory>${basedir}/${siteBaseDir}/src/main/appended-resources</appendedResourcesDirectory>
+                            <supplementalModels>
+                                <supplementalModel>supplemental-models.xml</supplementalModel>
+                            </supplementalModels>
+                            <resourceBundles>
+                                <resourceBundle>org.apache:apache-jar-resource-bundle:1.4</resourceBundle>
+                            </resourceBundles>
+                            <properties>
+                                <projectTimespan>2010~2015</projectTimespan>
+                                <postDepListText>
+The above (auto-generated) list aggregates the dependencies (either directly
+or transitively) of all the modules that make up ${project.name}. You can use 
+mvn dependency:list or mvn dependency:tree to view dependencies by submodule.
+
+${license.additional-notes}
+                        </postDepListText>
+                            </properties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+            run using:
+            mvn org.apache.rat:apache-rat-plugin:check
+             -->
+            <plugin>
+                <groupId>org.apache.rat</groupId>
+                <artifactId>apache-rat-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <!-- overriddes the default ('clean verify') -->
+                    <preparationGoals>clean install</preparationGoals>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <reporting>
+        <excludeDefaults>true</excludeDefaults>
+    </reporting>
+
+    <dependencyManagement>
+        <!-- is also for benefit of application developers, using scope=import -->
+        <dependencies>
+        
+            <!-- unittestsupport -->
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-unittestsupport</artifactId>
+                <version>1.9.0</version>
+                <!-- not scope=test, because referenced by some sql-tests-common under compile scope -->
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-unittestsupport</artifactId>
+                <version>1.9.0</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- applib -->
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-applib</artifactId>
+                <version>1.9.0</version>
+                <type>jar</type>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-applib</artifactId>
+                <version>1.9.0</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- schema -->
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-schema</artifactId>
+                <version>1.9.0</version>
+                <type>jar</type>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-schema</artifactId>
+                <version>1.9.0</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- log4j -->
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-log4j</artifactId>
+                <version>1.9.0</version>
+                <type>jar</type>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- metamodel -->
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-metamodel</artifactId>
+                <version>1.9.0</version>
+                <type>jar</type>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-metamodel</artifactId>
+                <version>1.9.0</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- runtime -->
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-runtime</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-runtime</artifactId>
+                <version>1.9.0</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-wrapper</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+
+            <!-- webserver -->
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-webserver</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+
+            <!-- specsupport -->
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-specsupport</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+
+            <!-- integtestsupport -->
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-integtestsupport</artifactId>
+                <version>1.9.0</version>
+                <!-- not scope=test, because referenced by some sql-tests-common under compile scope -->
+            </dependency>
+
+            <!-- Restful Objects viewer -->
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-viewer-restfulobjects-applib</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-viewer-restfulobjects-applib</artifactId>
+                <version>1.9.0</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-viewer-restfulobjects-rendering</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-viewer-restfulobjects-rendering</artifactId>
+                <version>1.9.0</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-viewer-restfulobjects-server</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-viewer-restfulobjects-server</artifactId>
+                <version>1.9.0</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- security implementation(s) -->
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-security</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.core</groupId>
+                <artifactId>isis-core-security-shiro</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+
+            
+            <!-- also for benefit of application developers, using scope=import -->
+            <dependency>
+                <groupId>org.apache.isis.viewer</groupId>
+                <artifactId>isis-viewer-wicket-applib</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.viewer</groupId>
+                <artifactId>isis-viewer-wicket-model</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.viewer</groupId>
+                <artifactId>isis-viewer-wicket-model</artifactId>
+                <version>1.9.0</version>
+                <scope>test</scope>
+                <type>test-jar</type>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.viewer</groupId>
+                <artifactId>isis-viewer-wicket-ui</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.viewer</groupId>
+                <artifactId>isis-viewer-wicket-ui</artifactId>
+                <version>1.9.0</version>
+                <scope>test</scope>
+                <type>test-jar</type>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.viewer</groupId>
+                <artifactId>isis-viewer-wicket-impl</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.isis.viewer</groupId>
+                <artifactId>isis-viewer-wicket-impl</artifactId>
+                <version>1.9.0</version>
+                <scope>test</scope>
+                <type>test-jar</type>
+            </dependency>
+
+
+            <!-- Maven plugin -->
+            <dependency>
+                <groupId>org.apache.isis.tool</groupId>
+                <artifactId>isis-maven-plugin</artifactId>
+                <version>1.9.0</version>
+            </dependency>
+
+            <!-- JodaTime -->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
+            </dependency>
+
+            <!-- Google Guava (collections and commons) -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <!-- Logging -->
+            <dependency>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-api</artifactId>
+              <version>${slf4j.version}</version>
+            </dependency>    
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <!--
+                required because resteasy-jaxrs declares as a test dependency
+                whereas httpclient4 needs it as a compile dependency -->
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>${commons-logging.version}</version>
+            </dependency>
+
+
+            <!-- Apache Commons -->
+            <dependency>
+                <groupId>commons-cli</groupId>
+                <artifactId>commons-cli</artifactId>
+                <version>${commons-cli.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>${commons-httpclient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec.version}</version>
+            </dependency>
+
+            <!-- Dependency injection -->
+            <dependency>
+                <groupId>com.google.inject</groupId>
+                <artifactId>guice</artifactId>
+                <version>${guice.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.picocontainer</groupId>
+                <artifactId>picocontainer</artifactId>
+                <version>${picocontainer.version}</version>
+            </dependency>
+
+            <!--  Reflection/metadata -->
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
+            </dependency>
+
+            <!-- Bytecode libraries -->
+            <dependency>
+                <groupId>org.objenesis</groupId>
+                <artifactId>objenesis</artifactId>
+                <version>${objenesis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>${javassist.version}</version>
+            </dependency>
+
+
+            <!-- XML libraries -->
+            <dependency>
+                <groupId>dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>${dom4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jdom</groupId>
+                <artifactId>jdom</artifactId>
+                <version>${jdom.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>${xstream.version}</version>
+            </dependency>
+
+
+            <!-- JSON libraries -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+
+
+            <!-- HTML -->
+            <dependency>
+                <groupId>org.htmlparser</groupId>
+                <artifactId>htmlparser</artifactId>
+                <version>${htmlparser.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun</groupId>
+                        <artifactId>tools</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+
+            <!-- Databases -->
+            <dependency>
+              <groupId>org.hsqldb</groupId>
+              <artifactId>hsqldb</artifactId>
+              <version>${hsqldb.version}</version>
+            </dependency>
+
+            <dependency>
+              <groupId>org.lazyluke</groupId>
+              <artifactId>log4jdbc-remix</artifactId>
+              <version>${log4jdbc-remix.version}</version>
+            </dependency>
+
+
+            <!-- Shiro -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-core</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-web</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+
+
+            <!-- RestEasy -->
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jaxrs</artifactId>
+                <version>${resteasy-jaxrs.version}</version>
+                <exclusions>
+                    <!-- instead use geronimo-servlet_3.0_spec -->
+                    <exclusion>
+                        <groupId>org.jboss.spec.javax.servlet</groupId>
+                        <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+                    </exclusion>
+                    <!-- instead use org.apache.geronimo.specs:geronimo-annotation_1.0_spec -->
+                    <exclusion>
+                        <groupId>javax.annotation</groupId>
+                        <artifactId>jsr250-api</artifactId>
+                    </exclusion>
+                    <!-- org.apache.geronimo.specs:geronimo-activation_1.1_spec -->
+                    <exclusion>
+                        <groupId>javax.activation</groupId>
+                        <artifactId>activation</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jaxb-provider</artifactId>
+                <version>${resteasy-jaxrs.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jackson-provider</artifactId>
+                <version>${resteasy-jaxrs.version}</version>
+            </dependency>
+
+            <!-- Wicket -->
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket</artifactId>
+                <version>${wicket.version}</version>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-core</artifactId>
+                <version>${wicket.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <!-- for dependency convergence -->
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-request</artifactId>
+                <version>${wicket.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <!-- for dependency convergence -->
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-util</artifactId>
+                <version>${wicket.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <!-- for dependency convergence -->
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-extensions</artifactId>
+                <version>${wicket.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <!-- for dependency convergence -->
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-datetime</artifactId>
+                <version>${wicket.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <!-- for dependency convergence -->
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-auth-roles</artifactId>
+                <version>${wicket.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <!-- for dependency convergence -->
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-guice</artifactId>
+                <version>${wicket.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <!-- for dependency convergence -->
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <!-- for Java7 compatibility (we don't use the proxying capability of this component) -->
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- Wicket-Select2 -->
+            <dependency>
+                <groupId>com.vaynberg.wicket.select2</groupId>
+                <artifactId>wicket-select2</artifactId>
+                <version>${wicket-select2.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <!-- for dependency convergence -->
+                        <groupId>org.apache.wicket</groupId>
+                        <artifactId>wicket-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>select2</artifactId>
+                <version>${select2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jquery-ui</artifactId>
+                <version>${jquery-ui.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.webjars</groupId>
+                        <artifactId>jquery</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- Webjars -->
+            <dependency>
+                <groupId>de.agilecoders.wicket.webjars</groupId>
+                <artifactId>wicket-webjars</artifactId>
+                <version>${wicket-webjars.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <!-- for dependency convergence -->
+                        <groupId>org.apache.wicket</groupId>
+                        <artifactId>wicket-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.wicket</groupId>
+                        <artifactId>wicket-request</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>de.agilecoders.wicket</groupId>
+                <artifactId>wicket-bootstrap-core</artifactId>
+                <version>${wicket-bootstrap.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.wicket</groupId>
+                        <artifactId>wicket-util</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.wicket</groupId>
+                        <artifactId>wicket-request</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.wicket</groupId>
+                        <artifactId>wicket-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.wicket</groupId>
+                        <artifactId>wicket-extensions</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>de.agilecoders.wicket</groupId>
+                <artifactId>wicket-bootstrap-extensions</artifactId>
+                <version>${wicket-bootstrap.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.wicket</groupId>
+                        <artifactId>wicket-util</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.wicket</groupId>
+                        <artifactId>wicket-request</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.wicket</groupId>
+                        <artifactId>wicket-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.wicket</groupId>
+                        <artifactId>wicket-extensions</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.webjars</groupId>
+                        <artifactId>bootstrap</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.webjars</groupId>
+                        <artifactId>jquery</artifactId>
+                    </exclusion>
+                    <!-- exclude unused extensions -->
+                    <exclusion>
+                        <groupId>org.webjars</groupId>
+                        <artifactId>jquerypp</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.webjars</groupId>
+                        <artifactId>jquery-ui</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.webjars</groupId>
+                        <artifactId>typeaheadjs</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.webjars</groupId>
+                        <artifactId>x-editable-bootstrap</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.webjars</groupId>
+                        <artifactId>spin-js</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.google.javascript</groupId>
+                        <artifactId>closure-compiler</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>de.agilecoders.wicket</groupId>
+                <artifactId>wicket-bootstrap-themes</artifactId>
+                <version>${wicket-bootstrap.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.wicket</groupId>
+                        <artifactId>wicket-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+
+            <dependency>
+                <groupId>net.ftlines.wicket-source</groupId>
+                <artifactId>wicket-source</artifactId>
+                <version>${wicket-source.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <!-- for dependency convergence -->
+                        <groupId>org.apache.wicket</groupId>
+                        <artifactId>wicket-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            
+            
+            <!-- predicate libraries -->
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-core</artifactId>
+                <version>${hamcrest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-library</artifactId>
+                <version>${hamcrest.version}</version>
+            </dependency>
+
+            <!-- Web development -->
+            <dependency>
+                <groupId>org.eclipse.jetty.aggregate</groupId>
+                <artifactId>jetty-all</artifactId>
+                <version>${jetty.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.eclipse.jetty.orbit</groupId>
+                        <artifactId>javax.servlet</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- Testing libraries (not scope=test because used by isis-core-integtest) -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jmock</groupId>
+                <artifactId>jmock</artifactId>
+                <version>${jmock.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jmock</groupId>
+                <artifactId>jmock-junit4</artifactId>
+                <version>${jmock.version}</version>
+                <exclusions>
+                    <exclusion>
+                <!-- for dependency convergence -->
+                        <groupId>junit</groupId>
+                        <artifactId>junit-dep</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- BDD testing -->
+            <dependency>
+                <groupId>info.cukes</groupId>
+                <artifactId>cucumber-java</artifactId>
+                <version>${cucumber.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>info.cukes</groupId>
+                <artifactId>cucumber-junit</artifactId>
+                <version>${cucumber.version}</version>
+            </dependency>
+
+            <!-- Testing libraries (scope=test) -->
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>${easymock.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Specs -->
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jsp_2.1_spec</artifactId>
+                <version>${geronimo-jsp_2.1_spec.version}</version>
+            </dependency>
+              <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jta_1.1_spec</artifactId>
+                <version>${geronimo-jta_1.1_spec.version}</version>
+              </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
+                <version>${geronimo-jta_1.0.1B_spec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-servlet_3.0_spec</artifactId>
+                <version>${geronimo-servlet_3.0_spec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-annotation_1.0_spec</artifactId>
+                <version>${geronimo-annotation_1.0_spec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-activation_1.1_spec</artifactId>
+                <version>${geronimo-activation_1.1_spec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-javamail_1.4_spec</artifactId>
+                <version>${geronimo-javamail_1.4_spec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-atinject_1.0_spec</artifactId>
+                <version>${geronimo-atinject_1.0_spec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jcdi_1.0_spec</artifactId>
+                <version>${geronimo-jcdi_1.0_spec.version}</version>
+            </dependency>
+
+
+            <!-- javax APIs -->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation-api.version}</version>
+            </dependency>
+
+
+            <!-- DataNucleus -->
+            <dependency>
+                <groupId>javax.jdo</groupId>
+                <artifactId>jdo-api</artifactId>
+                <version>${jdo-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.datanucleus</groupId>
+                <artifactId>datanucleus-core</artifactId>
+                <version>${datanucleus-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.datanucleus</groupId>
+                <artifactId>datanucleus-api-jdo</artifactId>
+                <version>${datanucleus-api-jdo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.datanucleus</groupId>
+                <artifactId>datanucleus-jdo-query</artifactId>
+                <version>${datanucleus-jdo-query.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.datanucleus</groupId>
+                <artifactId>datanucleus-rdbms</artifactId>
+                <version>${datanucleus-rdbms.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.datanucleus</groupId>
+                <artifactId>datanucleus-jodatime</artifactId>
+                <version>${datanucleus-jodatime.version}</version>
+            </dependency>
+ 
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- compile dependencies -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+
+        <!-- test dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jmock</groupId>
+            <artifactId>jmock-junit4</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!--
+    <distributionManagement>
+        <site>
+            <id>isis-site</id>
+            <name>Apache Isis Site</name>
+            <url>${distMgmtSiteUrl}</url>
+        </site>
+    </distributionManagement>
+    -->
+    <profiles>
+        <profile>
+            <id>m2e</id>
+            <activation>
+                <property>
+                    <name>m2e.version</name>
+                </property>
+            </activation>
+            <build>
+                <directory>target-ide</directory>
+            </build>
+        </profile>
+        
+        <profile>
+            <id>site-full</id>
+            <activation>
+                <property>
+                    <name>site</name>
+                    <value>full</value>
+                </property>
+            </activation>
+            <reporting>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-report-plugin</artifactId>
+                        <version>2.5</version>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <!-- default value is as given; referenced by
+                                other plugins so specified explicitly -->
+                            <outputDirectory>${project.build.directory}/apidocs</outputDirectory>
+                        </configuration>
+                        <reportSets>
+                            <reportSet>
+                                <reports>
+                                    <report>javadoc</report>
+                                    <report>test-javadoc</report>
+                                    <!--
+                                    removed because hitting bug 
+                                    (http://jira.codehaus.org/browse/MJAVADOC-298) 
+                                    -->
+                                </reports>
+                            </reportSet>
+                        </reportSets>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>cobertura-maven-plugin</artifactId>
+                        <version>2.4</version>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>2.6</version>
+                        <configuration>
+                            <configLocation>${checkstyle.configLocation}</configLocation>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                        <version>2.5</version>
+                        <configuration>
+                            <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                            <minimumTokens>100</minimumTokens>
+                            <!--
+                            <linkXref>true</linkXref>
+                            -->
+                            <targetJdk>${compileTarget}</targetJdk>
+                            <rulesets>
+                                <ruleset>${pmd.ruleset}</ruleset>
+                            </rulesets>
+                            <excludeRoots>
+                                <excludeRoot>
+                                    ${project.build.directory}/generated-sources/modello
+                                </excludeRoot>
+                                <excludeRoot>
+                                    ${project.build.directory}/generated-sources/plugin
+                                </excludeRoot>
+                            </excludeRoots>
+                        </configuration>
+                    </plugin>
+
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>javancss-maven-plugin</artifactId>
+                        <version>2.0</version>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>jdepend-maven-plugin</artifactId>
+                        <version>2.0-beta-2</version>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jxr-plugin</artifactId>
+                        <version>2.2</version>
+                        <configuration>
+                            <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
+                            <linkJavadoc>true</linkJavadoc>
+                            <javadocDir>${project.build.directory}/apidocs</javadocDir>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>taglist-maven-plugin</artifactId>
+                        <version>2.4</version>
+                        <configuration>
+                            <!-- causes out of memory <aggregate>true</aggregate> -->
+                            <tagListOptions>
+                                <tagClasses>
+                                    <tagClass>
+                                        <displayName>Todo Work</displayName>
+                                        <tags>
+                                            <tag>
+                                                <matchString>todo</matchString>
+                                                <matchType>ignoreCase</matchType>
+                                            </tag>
+                                            <tag>
+                                                <matchString>FIXME</matchString>
+                                                <matchType>exact</matchType>
+                                            </tag>
+                                            <tag>
+                                                <matchString>REVIEW</matchString>
+                                                <matchType>exact</matchType>
+                                            </tag>
+                                            <tag>
+                                                <matchString>hack</matchString>
+                                                <matchType>ignoreCase</matchType>
+                                            </tag>
+                                        </tags>
+                                    </tagClass>
+                                </tagClasses>
+                            </tagListOptions>
+                        </configuration>
+                    </plugin>
+
+                    <!-- TO LOOK INTO <plugin> <groupId>org.codehaus.sonar</groupId> 
+                        <artifactId>sonar-maven-plugin</artifactId> <version>1.10.1</version> </plugin> -->
+
+                </plugins>
+            </reporting>
+        </profile>
+
+        <profile>
+            <id>projectreports-pom</id>
+            <activation>
+                <property>
+                    <name>project.packaging</name>
+                    <value>pom</value>
+                </property>
+            </activation>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-project-info-reports-plugin</artifactId>
+                        <version>2.2</version>
+                        <inherited>false</inherited>
+                        <reportSets>
+                            <reportSet>
+                                <inherited>false</inherited>
+                                <reports>
+                                    <report>dependency-management</report>
+                                    <report>plugins</report>
+                                    <report>modules</report>
+                                    <report>summary</report>
+                                </reports>
+                            </reportSet>
+                        </reportSets>
+                    </plugin>
+                </plugins>
+            </reporting>
+        </profile>
+
+        <profile>
+            <id>projectreports-jar</id>
+            <activation>
+                <property>
+                    <name>project.packaging</name>
+                    <value>jar</value>
+                </property>
+            </activation>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-project-info-reports-plugin</artifactId>
+                        <version>2.2</version>
+                        <inherited>false</inherited>
+                        <reportSets>
+                            <reportSet>
+                                <reports>
+                                    <report>scm</report>
+                                    <report>license</report>
+                                    <report>project-team</report>
+                                    <report>issue-tracking</report>
+                                    <report>cim</report>
+                                    <report>mailing-list</report>
+                                    <report>dependency-management</report>
+                                    <report>plugin-management</report>
+                                    <report>plugins</report>
+                                    <report>modules</report>
+                                    <!-- <report>dependencies</report> -->
+                                    <!-- <report>dependency-convergence</report> -->
+                                    <!-- <report>summary</report> -->
+                                </reports>
+                            </reportSet>
+                        </reportSets>
+                    </plugin>
+                </plugins>
+            </reporting>
+        </profile>
+
+        <profile>
+            <id>deploy-local</id>
+            <activation>
+                <property>
+                    <name>deploy</name>
+                    <value>local</value>
+                </property>
+            </activation>
+            <!-- to deploy locally -->
+            <properties>
+                <distMgmtSiteUrl>file:///tmp/m2-sites/isis</distMgmtSiteUrl>
+            </properties>
+        </profile>
+
+        <!-- overrides inherited configuration to allow regular deploy plugin 
+            to work to snapshot repo. Use: -D deploy=snapshot -D modules=standard -D 
+            distMgmtSnapshotsUrl=... where the last property is the repo URL to deploy 
+            to -->
+        <profile>
+            <id>deploy-snapshot</id>
+            <activation>
+                <property>
+                    <name>deploy</name>
+                    <value>snapshot</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <inherited>true</inherited>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <modules>
+        <module>applib</module>
+        <module>schema</module>
+        <module>log4j</module>
+        <module>metamodel</module>
+        <module>runtime</module>
+        <module>wrapper</module>
+        <module>webserver</module>
+
+        <module>security-noop</module>
+        <module>security-shiro</module>
+
+        <module>unittestsupport</module>
+        <module>specsupport</module>
+        <module>integtestsupport</module>
+
+        <module>viewer-restfulobjects-applib</module>
+        <module>viewer-restfulobjects-rendering</module>
+        <module>viewer-restfulobjects-server</module>
+
+        <module>viewer-wicket</module>
+
+        <module>maven-plugin</module>
+    </modules>
+
+</project>
+
+

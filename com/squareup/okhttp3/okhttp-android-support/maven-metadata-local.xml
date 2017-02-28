@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.squareup.okhttp3</groupId>
+  <artifactId>okhttp-android-support</artifactId>
+  <versioning>
+    <versions>
+      <version>3.7.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20170224023154</lastUpdated>
+  </versioning>
+</metadata>
