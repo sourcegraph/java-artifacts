@@ -1,0 +1,19 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>tanukisoft</groupId>
+  <artifactId>wrapper</artifactId>
+  <name>Java Service Wrapper</name>
+  <version>3.2.3</version>
+  <packaging>jar</packaging>
+  <url>http://wrapper.tanukisoftware.org/</url>
+  <licenses>
+    <license>
+      <name>Tanuki Software license</name>
+      <url>http://wrapper.tanukisoftware.org/doc/english/license.html</url>
+    </license>
+  </licenses>
+  <scm>
+    <url>http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/wrapper/</url>
+  </scm>
+</project>
+

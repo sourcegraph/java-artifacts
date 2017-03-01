@@ -1,0 +1,13 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.bouncycastle</groupId>
+  <artifactId>bcpg-jdk12</artifactId>
+  <version>130</version>
+  <dependencies>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk12</artifactId>
+      <version>130</version>
+    </dependency>
+  </dependencies>
+</project>

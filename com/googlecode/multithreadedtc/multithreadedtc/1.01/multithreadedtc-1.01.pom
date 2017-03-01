@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.googlecode.multithreadedtc</groupId>
+  <artifactId>multithreadedtc</artifactId>
+  <version>1.01</version>
+  <name>multithreadedtc</name>
+  <description>A framework for testing concurrent Java applications</description>
+  <inceptionYear>2007</inceptionYear>
+  <url>http://code.google.com/p/multithreadedtc/</url>
+  <packaging>jar</packaging>
+  <licenses>
+    <license>
+      <name>New BSD License</name>
+      <url>http://www.opensource.org/licenses/bsd-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <developerConnection>scm:svn:https://multithreadedtc.googlecode.com/svn/trunk/</developerConnection>
+    <connection>scm:svn:http://multithreadedtc.googlecode.com/svn/trunk/</connection>
+    <url>http://code.google.com/p/multithreadedtc/source/browse/</url>
+  </scm>
+  <issueManagement>
+    <system>Google Code</system>
+    <url>http://code.google.com/p/multithreadedtc/issues/list</url>
+  </issueManagement>
+  <developers>
+    <developer>
+      <id>bill.pugh</id>
+      <name>Bill Pugh</name>
+      <email>pugh at cs.umd.edu</email>
+      <url>http://www.cs.umd.edu/~pugh/</url>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>nat.ayewah</id>
+      <name>Nat Ayewah</name>
+      <url>http://www.cs.umd.edu/~ayewah/web/</url>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

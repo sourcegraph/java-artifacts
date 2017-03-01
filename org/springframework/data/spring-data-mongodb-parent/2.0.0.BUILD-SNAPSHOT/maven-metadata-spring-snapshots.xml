@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.springframework.data</groupId>
+  <artifactId>spring-data-mongodb-parent</artifactId>
+  <version>2.0.0.BUILD-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20170213.133206</timestamp>
+      <buildNumber>84</buildNumber>
+    </snapshot>
+    <lastUpdated>20170213133514</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>pom.asc</extension>
+        <value>2.0.0.BUILD-20170213.133206-84</value>
+        <updated>20170213133206</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>2.0.0.BUILD-20170213.133206-84</value>
+        <updated>20170213133206</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>

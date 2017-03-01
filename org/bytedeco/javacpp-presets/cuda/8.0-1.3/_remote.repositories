@@ -1,0 +1,8 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Sun Feb 26 22:50:33 PST 2017
+cuda-8.0-1.3-windows-x86_64.jar>central=
+cuda-8.0-1.3-linux-x86_64.jar>central=
+cuda-8.0-1.3-linux-ppc64le.jar>central=
+cuda-8.0-1.3.jar>central=
+cuda-8.0-1.3.pom>central=
+cuda-8.0-1.3-macosx-x86_64.jar>central=

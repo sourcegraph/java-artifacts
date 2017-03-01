@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2011 Everit Kft. (http://www.everit.biz)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.everit.config</groupId>
+  <artifactId>org.everit.config.main</artifactId>
+  <version>8.1.0</version>
+
+  <packaging>pom</packaging>
+
+  <name>Everit Main</name>
+  <description>Main (configuration) project for Maven based Everit solutions.</description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <org.everit.config.conventions.version>9.1.0</org.everit.config.conventions.version>
+  </properties>
+
+  <inceptionYear>2011</inceptionYear>
+
+  <organization>
+    <name>Everit Kft.</name>
+    <url>http://www.everit.biz</url>
+  </organization>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:https://github.com/everit-org/everit-maven-main.git</connection>
+    <developerConnection>scm:git:https://github.com/everit-org/everit-maven-main.git</developerConnection>
+    <url>https://github.com/everit-org/everit-maven-main</url>
+  </scm>
+
+  <url>https://github.com/everit-org/everit-maven-main</url>
+
+  <developers>
+    <developer>
+      <name>Everit Team</name>
+    </developer>
+  </developers>
+
+  <build>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>3.0.0</version>
+          <extensions>true</extensions>
+          <configuration>
+            <instructions>
+              <Bundle-DocURL>${project.url}</Bundle-DocURL>
+            </instructions>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>2.16</version>
+          <configuration>
+            <configLocation>everit-checkstyle.xml</configLocation>
+            <logViolationsToConsole>true</logViolationsToConsole>
+            <violationSeverity>warning</violationSeverity>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.everit.config</groupId>
+              <artifactId>org.everit.config.conventions</artifactId>
+              <version>${org.everit.config.conventions.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>6.11.2</version>
+              <exclusions>
+                <exclusion>
+                  <groupId>com.sun</groupId>
+                  <artifactId>tools</artifactId>
+                </exclusion>
+              </exclusions>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>3.0.2</version>
+          <configuration>
+            <effort>Max</effort>
+            <threshold>Low</threshold>
+            <xmlOutput>true</xmlOutput>
+            <excludeFilterFile>everit-findbugs.xml</excludeFilterFile>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.everit.config</groupId>
+              <artifactId>org.everit.config.conventions</artifactId>
+              <version>${org.everit.config.conventions.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>3.5</version>
+          <configuration>
+            <printFailingErrors>true</printFailingErrors>
+            <linkXRef>false</linkXRef>
+            <rulesets>
+              <ruleset>/everit-pmd.xml</ruleset>
+            </rulesets>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.everit.config</groupId>
+              <artifactId>org.everit.config.conventions</artifactId>
+              <version>${org.everit.config.conventions.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <inherited>false</inherited>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>2.11</version>
+        <configuration>
+          <aggregate>false</aggregate>
+          <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+          <excludes>
+            <exclude>LICENSE</exclude>
+          </excludes>
+          <skipExistingHeaders>true</skipExistingHeaders>
+          <properties>
+            <owner>${project.organization.name}</owner>
+            <email>${project.organization.url}</email>
+          </properties>
+          <mapping>
+            <java>SLASHSTAR_STYLE</java>
+          </mapping>
+        </configuration>
+        <executions>
+          <execution>
+            <id>check-license</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>net.distilledcode.maven</groupId>
+        <artifactId>baselining-maven-plugin</artifactId>
+        <version>1.0.8</version>
+        <executions>
+          <execution>
+            <id>baseline</id>
+            <goals>
+              <goal>baseline</goal>
+            </goals>
+            <configuration>
+              <explain>true</explain>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+
+  </build>
+
+  <profiles>
+
+    <profile>
+      <id>quality</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>checkstyle-check</id>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>findbugs-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>findbugs-check</id>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>pmd-check</id>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+  </profiles>
+
+</project>

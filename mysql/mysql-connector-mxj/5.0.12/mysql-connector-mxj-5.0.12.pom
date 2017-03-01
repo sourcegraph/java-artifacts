@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>mysql</groupId>
+  <artifactId>mysql-connector-mxj</artifactId>
+  <packaging>jar</packaging>
+  <version>5.0.12</version>
+  <name>MySQL Connector/MXJ </name>
+  <description>
+    MySQL Connector/MXJ is a Java Utility package for deploying and managing a MySQL database.
+  </description>
+  <inceptionYear>2004</inceptionYear>
+  <url>http://dev.mysql.com/doc/refman/5.1/en/connector-mxj.html</url>
+
+  <licenses>
+    <license>
+      <name>GNU GENERAL PUBLIC LICENSE</name>
+      <url>http://www.gnu.org/licenses/gpl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>http://svn.mysql.com/svnpublic</connection>
+    <url>http://svn.mysql.com/svnpublic</url>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>mysql</id>
+      <name>Generic MySQL Developer</name>
+      <email>unknown@mysql.com</email>
+    </developer>
+  </developers>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <!-- only used when a certain sys property is enabled -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.5.4</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-mxj-db-files</artifactId>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.17</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.external</groupId>
+      <artifactId>opendmk_jdmkrt_jar</artifactId>
+      <version>1.0-b01-ea</version>
+      <optional>true</optional>
+    </dependency>
+    <!-- test sources are not separated out, so cannot use test scope -->
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.10</version>
+        <optional>true</optional>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <sourceDirectory>${basedir}/src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <!-- javadoc is messed up in the source -->
+          <failOnError>false</failOnError>
+          <quiet>true</quiet>
+          <!-- avoid bug in javadoc: http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5101868 -->
+          <use>false</use>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

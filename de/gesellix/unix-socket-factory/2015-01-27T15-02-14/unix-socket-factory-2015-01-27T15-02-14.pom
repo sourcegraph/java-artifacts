@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.gesellix</groupId>
+  <artifactId>unix-socket-factory</artifactId>
+  <version>2015-01-27T15-02-14</version>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.3</version>
+      <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+  <name>unix-socket-factory</name>
+  <description>Adds unix socket support to the Apache HttpClient</description>
+  <url>https://github.com/gesellix/unix-socket-factory</url>
+  <scm>
+    <url>https://github.com/gesellix/unix-socket-factory.git</url>
+    <connection>https://github.com/gesellix/unix-socket-factory.git</connection>
+    <developerConnection>https://github.com/gesellix/unix-socket-factory.git</developerConnection>
+  </scm>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/license/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>gesellix</id>
+      <name>Tobias Gesellchen</name>
+      <email>tobias@gesellix.de</email>
+    </developer>
+  </developers>
+</project>

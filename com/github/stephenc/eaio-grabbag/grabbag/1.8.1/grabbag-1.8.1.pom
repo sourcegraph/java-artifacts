@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>5</version>
+  </parent>
+
+  <groupId>com.github.stephenc.eaio-grabbag</groupId>
+  <artifactId>grabbag</artifactId>
+  <version>1.8.1</version>
+  <name>A grabbag of wonderful things.</name>
+  <description>Stuff that was originally written for johannburkard.de, media.io, pdfimg and various other webapps and was always copied around.</description>
+  <url>http://github.com/stephenc/eaio-grabbag</url>
+  <inceptionYear>2014</inceptionYear>
+  <packaging>non-maven-jar</packaging>
+
+  <prerequisites>
+    <maven>2.2.1</maven>
+  </prerequisites>
+
+  <scm>
+    <connection>scm:git:git://github.com/stephenc/eaio-grabbag.git</connection>
+    <developerConnection>scm:git:git@github.com:stephenc/eaio-grabbag.git</developerConnection>
+    <url>http://github.com/stephenc/eaio-grabbag/tree/master/</url>
+    <tag>grabbag-1.8.1</tag>
+  </scm>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <issueManagement>
+    <system>github</system>
+    <url>http://github.com/stephenc/eaio-uuid/issues</url>
+  </issueManagement>
+
+  <developers>
+    <developer>
+      <id>stephenc</id>
+      <name>Stephen Connolly</name>
+      <roles>
+        <role>packager</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>johann</id>
+      <name>Johann Burkard</name>
+      <email>johann@johannburkard.de</email>
+      <url>http://johannburkard.de</url>
+      <organization>Johann Burkard</organization>
+      <organizationUrl>http://johannburkard.de</organizationUrl>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>2.5</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.4.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>com.github.stephenc.nonmavenjar</groupId>
+        <artifactId>non-maven-jar-maven-plugin</artifactId>
+        <version>1.1</version>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <properties>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+</project>

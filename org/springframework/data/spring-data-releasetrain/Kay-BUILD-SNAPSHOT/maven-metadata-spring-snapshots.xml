@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.springframework.data</groupId>
+  <artifactId>spring-data-releasetrain</artifactId>
+  <version>Kay-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20170223.121212</timestamp>
+      <buildNumber>30</buildNumber>
+    </snapshot>
+    <lastUpdated>20170223121258</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>pom.asc</extension>
+        <value>Kay-BUILD-20170223.121212-30</value>
+        <updated>20170223121212</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>Kay-BUILD-20170223.121212-30</value>
+        <updated>20170223121212</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>

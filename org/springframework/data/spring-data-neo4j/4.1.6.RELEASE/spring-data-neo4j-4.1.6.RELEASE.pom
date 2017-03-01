@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c)  [2011-2016] "Pivotal Software, Inc." / "Neo Technology" / "Graph Aware Ltd."
+  ~
+  ~ This product is licensed to you under the Apache License, Version 2.0 (the "License").
+  ~ You may not use this product except in compliance with the License.
+  ~
+  ~ This product may include a number of subcomponents with
+  ~ separate copyright notices and license terms. Your use of the source
+  ~ code for these subcomponents is subject to the terms and
+  ~ conditions of the subcomponent's license, as noted in the LICENSE file.
+  ~
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-neo4j-parent</artifactId>
+        <version>4.1.6.RELEASE</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>spring-data-neo4j</artifactId>
+
+    <properties>
+        <neo4j.version>2.3.3</neo4j.version>
+        <neo4j.ogm.version>2.0.6</neo4j.ogm.version>
+        <ogm.properties>ogm-http.properties</ogm.properties>
+    </properties>
+
+    <name>Spring Data Neo4j</name>
+
+        <dependencies>
+
+            <dependency>
+                <groupId>org.neo4j</groupId>
+                <artifactId>neo4j-ogm-core</artifactId>
+                <version>${neo4j.ogm.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.neo4j</groupId>
+                <artifactId>neo4j-ogm-http-driver</artifactId>
+                <version>${neo4j.ogm.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-commons</artifactId>
+                <version>${springdata.commons}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+            </dependency>
+
+            <!-- test-scoped jars -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- this test dependency also brings in all the drivers -->
+            <dependency>
+                <groupId>org.neo4j</groupId>
+                <artifactId>neo4j-ogm-test</artifactId>
+                <version>${neo4j.ogm.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.neo4j.test</groupId>
+                <artifactId>neo4j-harness</artifactId>
+                <version>${neo4j.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- jsr 303 tests -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.el</artifactId>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>default-test</id>
+                        <configuration>
+                            <forkMode>once</forkMode>
+                            <includes>
+                                <include>**/*.java</include>
+                            </includes>
+
+                            <systemPropertyVariables>
+                                <ogm.properties>${ogm.properties}</ogm.properties>
+                            </systemPropertyVariables>
+
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>embedded</id>
+            <properties>
+                <ogm.properties>ogm-embedded.properties</ogm.properties>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>bolt</id>
+            <properties>
+                <ogm.properties>ogm-bolt.properties</ogm.properties>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>http</id>
+            <properties>
+                <ogm.properties>ogm-http.properties</ogm.properties>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>3.0</id>
+            <properties>
+                <neo4j.version>3.0.4</neo4j.version>
+            </properties>
+        </profile>
+
+
+        <profile>
+            <id>2.3</id>
+            <properties>
+                <neo4j.version>2.3.7</neo4j.version>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>2.2</id>
+            <properties>
+                <neo4j.version>2.2.10</neo4j.version>
+            </properties>
+        </profile>
+
+    </profiles>
+
+    <repositories>
+        <repository>
+            <id>neo4j</id>
+            <url>http://m2.neo4j.org/content/repositories/releases</url>
+        </repository>
+    </repositories>
+
+</project>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.springframework.mobile</groupId>
+  <artifactId>spring-mobile-device</artifactId>
+  <version>2.0.0.M1</version>
+  <name>Spring Mobile Device Resolution Support</name>
+  <description>Spring Mobile Device Resolution Support</description>
+  <url>https://github.com/spring-projects/spring-mobile</url>
+  <organization>
+    <name>Spring IO</name>
+    <url>http://projects.spring.io/spring-mobile</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>royclarkson</id>
+      <name>Roy Clarkson</name>
+      <email>rclarkson@pivotal.io</email>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git://github.com/spring-projects/spring-mobile</connection>
+    <developerConnection>scm:git:git://github.com/spring-projects/spring-mobile</developerConnection>
+    <url>https://github.com/spring-projects/spring-mobile</url>
+  </scm>
+  <issueManagement>
+    <system>Jira</system>
+    <url>https://jira.spring.io/browse/MOBILE</url>
+  </issueManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-framework-bom</artifactId>
+        <version>5.0.0.M3</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

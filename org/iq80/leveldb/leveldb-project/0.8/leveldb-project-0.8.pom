@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.airlift</groupId>
+        <artifactId>airbase</artifactId>
+        <version>28</version>
+    </parent>
+
+    <groupId>org.iq80.leveldb</groupId>
+    <artifactId>leveldb-project</artifactId>
+    <version>0.8</version>
+    <packaging>pom</packaging>
+
+    <description>Port of LevelDB to Java</description>
+    <url>http://github.com/dain/leveldb</url>
+
+    <modules>
+        <module>leveldb-api</module>
+        <module>leveldb</module>
+        <module>leveldb-benchmark</module>
+    </modules>
+
+    <inceptionYear>2011</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>dain</id>
+            <name>Dain Sundstrom</name>
+            <email>dain@iq80.com</email>
+        </developer>
+        <developer>
+            <id>chirino</id>
+            <name>Hiram Chirino</name>
+            <email>hiram@hiramchirino.com</email>
+            <url>http://hiramchirino.com</url>
+            <timezone>-5</timezone>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/dain/leveldb.git</connection>
+        <developerConnection>scm:git:git@github.com:dain/leveldb.git</developerConnection>
+        <url>http://github.com/dain/leveldb/tree/master</url>
+      <tag>0.8</tag>
+  </scm>
+
+    <properties>
+        <air.check.skip-extended>true</air.check.skip-extended>
+        <air.check.skip-license>false</air.check.skip-license>
+
+        <air.check.fail-checkstyle>true</air.check.fail-checkstyle>
+        <air.check.skip-checkstyle>false</air.check.skip-checkstyle>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.iq80.leveldb</groupId>
+                <artifactId>leveldb-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.iq80.leveldb</groupId>
+                <artifactId>leveldb</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.11</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${air.check.skip-checkstyle}</skip>
+                            <failOnViolation>${air.check.fail-checkstyle}</failOnViolation>
+                            <consoleOutput>true</consoleOutput>
+                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                            <configLocation>${air.main.basedir}/src/checkstyle/checks.xml</configLocation>
+                            <excludes>**/com/facebook/presto/operator/PagesIndexOrdering.java</excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

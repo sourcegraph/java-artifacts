@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.acplt</groupId>
+  <artifactId>oncrpc</artifactId>
+  <name>Remote Tea Runtime</name>
+  <packaging>jar</packaging>
+  <version>1.0.7</version>
+  <description>A fully fledged implementation of the ONC/RPC protocol</description>
+  <url>http://remotetea.sourceforge.net/</url>
+  <licenses>
+    <license>
+      <name>GNU Lesser General Public License</name>
+      <url>http://www.gnu.org/licenses/lgpl.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:cvs:pserver:remotetea.cvs.sourceforge.net:/cvsroot/remotetea</connection>
+    <developerConnection>scm:ext:remotetea.cvs.sourceforge.net:/cvsroot/remotetea</developerConnection>
+    <url>http://remotetea.cvs.sourceforge.net/viewvc/remotetea/</url>
+  </scm>
+  <developers>
+    <developer>
+      <id>haraldalbrecht</id>
+      <name>Harald Albrecht</name>
+      <email>haraldalbrecht@users.sourceforge.net</email>
+    </developer>
+  </developers>
+</project>

@@ -1,0 +1,162 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.postgresql</groupId>
+        <artifactId>pgjdbc-core-parent</artifactId>
+        <version>1.1.2</version>
+        <relativePath>../pgjdbc-core-parent</relativePath>
+    </parent>
+
+    <artifactId>pgjdbc-core-prevjre</artifactId>
+    <packaging>pom</packaging>
+    <name>PostgreSQL JDBC Driver - skeleton pom for old jre</name>
+    <description>Build configuration to produce jar for previous Java versions</description>
+
+    <properties>
+        <!-- By default, pgjdbc-jreX is supposed to be checked out under main pgjdbc clone (for ease of development).
+             For mvn:release, git submodule is used to checkout pgjdbc source under pgjdbc-jreX folder. -->
+        <pgjdbc.clone.location>..</pgjdbc.clone.location>
+    </properties>
+
+    <build>
+        <sourceDirectory>${pgjdbc.clone.location}/pgjdbc/src/main/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>${pgjdbc.clone.location}/pgjdbc/src/main/resources</directory>
+            </resource>
+        </resources>
+        <testSourceDirectory>${pgjdbc.clone.location}/pgjdbc/src/test/java</testSourceDirectory>
+        <testResources>
+            <testResource>
+                <directory>${pgjdbc.clone.location}/pgjdbc/src/test/resources</directory>
+            </testResource>
+        </testResources>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>activate-toolchain</id>
+            <activation>
+                <file>
+                    <missing>../pgjdbc-versions</missing>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-java</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>true</skip>
+                                    <rules />
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-toolchains-plugin</artifactId>
+                        <version>1.1</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>toolchain</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <!-- If pgjdbc-jreX is cloned under pgjdbc, then just use its sources.
+            It enables fast change-compile-test turnaround. However, for release purposes, submodule is used. -->
+            <id>clone-in-submodule</id>
+            <activation>
+                <file>
+                    <missing>../pgjdbc/src/assembly/dist.xml</missing>
+                </file>
+            </activation>
+            <properties>
+                <pgjdbc.clone.location>pgjdbc</pgjdbc.clone.location>
+                <build.properties.relative.path>${pgjdbc.clone.location}</build.properties.relative.path>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>release-artifacts</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>${pgjdbc.clone.location}/pgjdbc/src/assembly/dist.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>mvn-release-perform</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <properties>
+                <!--
+                Release of prev builds is invoked from core-jreX subfolders.
+                workingDirectory = /.../code/pgjdbc/core-jre7/target/checkout
+                build.properties.relative.path should target to pgjdbc, so 3 '..'
+                -->
+                <build.properties.relative.path>../../..</build.properties.relative.path>
+                <pgjdbc.clone.location>pgjdbc</pgjdbc.clone.location>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>git submodule update</id>
+                                <phase>initialize</phase>
+                                <configuration>
+                                    <executable>git</executable>
+                                    <arguments>
+                                        <argument>submodule</argument>
+                                        <argument>update</argument>
+                                        <argument>--init</argument>
+                                        <argument>--recursive</argument>
+                                        <!-- It is assumed prev-jre release would be performed from
+                                             .../code/pgjdbc/core-jre7/target/checkout, thus 3 '..'s to eliminate
+                                             fetch from github and reuse git data of the main clone -->
+                                        <argument>--reference</argument>
+                                        <argument>../../..</argument>
+                                    </arguments>
+                                </configuration>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

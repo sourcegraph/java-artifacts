@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>io.dropwizard</groupId>
+  <artifactId>dropwizard-parent</artifactId>
+  <version>1.2.0-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20170227.140628</timestamp>
+      <buildNumber>15</buildNumber>
+    </snapshot>
+    <lastUpdated>20170227140628</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.2.0-20170227.140628-15</value>
+        <updated>20170227140628</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>

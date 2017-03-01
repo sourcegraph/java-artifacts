@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.mule.edi</groupId>
+  <artifactId>edi</artifactId>
+  <version>1.2.2</version>
+  <packaging>pom</packaging>
+  <name>Mule EDI Support</name>
+
+  <properties>
+    <junit.version>4.9</junit.version>
+    <jdk.version>1.7</jdk.version>
+    <base.scala.version>2.11</base.scala.version>
+    <scala.version>${base.scala.version}.5</scala.version>
+    <spire.version>0.9.0</spire.version>
+    <threeten.version>1.2</threeten.version>
+    <snakeyaml.version>1.15</snakeyaml.version>
+  </properties>
+
+  <modules>
+    <module>ltm</module>
+    <module>parser</module>
+    <module>schemas-edifact</module>
+    <module>schemas-hl7</module>
+    <module>schemas-x12</module>
+    <module>systests</module>
+  </modules>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.0.2</version>
+          <configuration>
+            <source>${jdk.version}</source>
+            <target>${jdk.version}</target>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>mule-ee-releases</id>
+      <name>Mule EE Releases Repository</name>
+      <url>https://repository-master.mulesoft.org/nexus/content/repositories/releases-ee/</url>
+    </repository>
+    <repository>
+      <id>mule-ee-snapshots</id>
+      <name>Mule EE Snapshots Repository</name>
+      <layout>default</layout>
+      <url>https://repository-master.mulesoft.org/nexus/content/repositories/ci-snapshots/</url>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>mule-ee-releases</id>
+      <name>Mule EE Releases Repository</name>
+      <url>https://repository-master.mulesoft.org/nexus/content/repositories/releases-ee/</url>
+    </repository>
+    <snapshotRepository>
+      <id>mulesoft-snapshots</id>
+      <name>MuleSoft Snapshot Repository</name>
+      <url>https://repository-master.mulesoft.org/nexus/content/repositories/ci-snapshots/</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
+  
+</project>

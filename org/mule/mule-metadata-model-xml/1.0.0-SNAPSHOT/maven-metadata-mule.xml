@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>org.mule</groupId>
+  <artifactId>mule-metadata-model-xml</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20170221.220044</timestamp>
+      <buildNumber>88</buildNumber>
+    </snapshot>
+    <lastUpdated>20170221220044</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>1.0.0-20170221.220044-88</value>
+        <updated>20170221220044</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.0.0-20170221.220044-88</value>
+        <updated>20170221220044</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <classifier>javadoc</classifier>
+        <extension>jar</extension>
+        <value>1.0.0-20170221.220044-88</value>
+        <updated>20170221220044</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>

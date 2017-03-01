@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>com.mulesoft.weave</groupId>
+  <artifactId>runtime</artifactId>
+  <version>1.2.0-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20170226.000516</timestamp>
+      <buildNumber>148</buildNumber>
+    </snapshot>
+    <lastUpdated>20170226161133</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <classifier>test</classifier>
+        <extension>zip</extension>
+        <value>1.2.0-20170226.000516-148</value>
+        <updated>20170226000516</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>1.2.0-20170226.000516-148</value>
+        <updated>20170226000516</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.2.0-20170226.000516-148</value>
+        <updated>20170226000516</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>

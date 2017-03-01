@@ -1,0 +1,2360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+    
+     http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+
+<!--
+  This is the common UIMA parent pom.
+  It contains the project-wide defaults:
+  
+    The parent of this POM is the official common Apache POM
+    
+    Defines repositories for
+      Snapshots - at Apache - used during development, and for docbook olinks 
+      Eclipse - where the good poms are
+      Central - adds default check-the checksums
+      
+    PluginManagement defaults:
+      Java 1.5 as the base
+      Javadoc at 1.5 too
+      Jar Manifest entries, including the build-time
+      AntRun to pick a later version of ant with support for ant extensions like "if"
+      
+    Specify plugin levels for non-standard plugins:
+      RAT
+      eclipse   
+    
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>apache</artifactId>
+    <groupId>org.apache</groupId>
+    <version>13</version>
+    <relativePath />
+  </parent>
+
+  <groupId>org.apache.uima</groupId>
+  <artifactId>parent-pom</artifactId>
+  <version>6</version>
+  <packaging>pom</packaging>
+  
+  <name>Apache UIMA ${project.artifactId}</name>
+  <description>UIMA (Unstructured Information Management Architecture).
+    UIMA promotes community development and reuse of annotators
+    that extract metadata from unstructured information (text, audio, video, etc.);
+    it provides for externalized declaration of type systems,
+    component configuration, aggregation, and more,
+    supports scalablity, and provides tooling.</description>
+    
+  <url>${uimaWebsiteUrl}</url>
+  <inceptionYear>2006</inceptionYear>
+ 
+  <mailingLists>
+    <mailingList>
+      <name>Apache UIMA Development List</name>
+      <subscribe>dev-subscribe@uima.apache.org</subscribe>
+      <unsubscribe>dev-unsubscribe@uima.apache.org</unsubscribe>
+      <post>mailto:dev@uima.apache.org</post>
+      <archive>
+        http://mail-archives.apache.org/mod_mbox/uima-dev
+      </archive>
+      <otherArchives>
+        <otherArchive>
+          http://dir.gmane.org/gmane.comp.apache.uima.devel
+        </otherArchive>
+         <otherArchive>       
+           http://uima.markmail.org
+        </otherArchive>
+      </otherArchives>
+    </mailingList>
+    <mailingList>
+      <name>Apache UIMA Users List</name>
+      <subscribe>user-subscribe@uima.apache.org</subscribe>
+      <unsubscribe>user-unsubscribe@uima.apache.org</unsubscribe>
+      <post>mailto:user@uima.apache.org</post>
+      <archive>
+        http://mail-archives.apache.org/mod_mbox/uima-user
+      </archive>
+      <otherArchives>
+        <otherArchive>
+          http://dir.gmane.org/gmane.comp.apache.uima.general
+        </otherArchive>
+         <otherArchive>       
+           http://uima.markmail.org
+        </otherArchive>
+      </otherArchives>
+    </mailingList>
+    <mailingList>
+      <name>Apache UIMA Commits List</name>
+      <subscribe>commits-subscribe@uima.apache.org</subscribe>
+      <unsubscribe>commits-unsubscribe@uima.apache.org</unsubscribe>
+      <post>mailto:commits@uima.apache.org</post>
+      <archive>
+        http://mail-archives.apache.org/mod_mbox/uima-commits
+      </archive>
+    </mailingList>
+  </mailingLists>
+
+  <prerequisites>
+    <!-- 2.2.0 is broken when deploying - checksums invalid -->
+    <!-- 2.2.1 doesn't work -->
+    <maven>3.0</maven>
+  </prerequisites>
+        
+  <scm>
+    <connection>
+      scm:svn:http://svn.apache.org/repos/asf/uima/build/tags/parent-pom-6-rc3
+    </connection>
+    <developerConnection>
+      scm:svn:https://svn.apache.org/repos/asf/uima/build/tags/parent-pom-6-rc3
+    </developerConnection>
+    <url>
+      http://svn.apache.org/viewvc/uima/build/tags/parent-pom-6-rc3
+    </url>
+  </scm>
+  
+  <issueManagement>
+    <system>Jira</system>
+    <!-- the form of the url is from http://maven.apache.org/plugins/maven-changes-plugin/usage.html -->
+    <!--url>https://issues.apache.org/jira/BrowseProject.jspa?projectId=12310570</url-->
+    <url>https://issues.apache.org/jira/browse/UIMA</url>
+        
+  </issueManagement>
+  
+  <ciManagement>
+    <system>Jenkins</system>
+    <url>https://builds.apache.org/</url>
+    <notifiers />
+  </ciManagement>
+  
+  <!-- distribution management - is inherited from Apache pom
+       and specifies 
+         https://repository.apache.org/service/local/staging/deploy/maven2
+       and for snapshots:
+         https://repository.apache.org/content/repositories/snapshots -->
+  <!-- for children POMs maven automatically adds their artifactId to the URL below
+       unless overridden -->
+  <distributionManagement>
+    <site>
+      <id>uima.apache.org</id> <!-- following maven convention -->
+      <name>Apache UIMA Website</name>
+      <url>${uimaWebsiteDistributionUrl}</url>  <!-- on people.apache.org: /www/uima.apache.org -->
+    </site>  
+  </distributionManagement>
+
+  <properties>
+    <!--  this property is overridden in child projects that are released, to correspond to the 
+          Jira release category(ies) 
+          We specify something here, because if accidentally left blank, it 
+          generates a giant request for all changes -->
+    <jiraVersion>12324673</jiraVersion>  <!-- for parent-pom-5 change for each release -->
+    <uimaBuildResourcesVersion>5</uimaBuildResourcesVersion>
+    <uimaWebsiteUrl>http://uima.apache.org</uimaWebsiteUrl>
+    <uimaWebsiteDistributionUrl>scp://people.apache.org/www/uima.apache.org/</uimaWebsiteDistributionUrl>
+    <maven.build.timestamp.format>yyMMdd_HHmm</maven.build.timestamp.format>
+    <buildDateTime>${maven.build.timestamp}</buildDateTime>
+
+    <!-- these properties are for docbook processing. -->     
+    <!-- olink databases -->
+    <dolArtifactId>uima-docbook-olink</dolArtifactId>
+    <dolClassifier>olink</dolClassifier>
+    <dolRepo>${settings.localRepository}/org/apache/uima/${dolArtifactId}/1-SNAPSHOT</dolRepo>
+    <dolZip>${dolArtifactId}-1-SNAPSHOT-${dolClassifier}.zip</dolZip>
+    <dolUnzipped>${dolRepo}/docbook-olink</dolUnzipped>
+    <dolBuiltFile>${project.build.directory}/</dolBuiltFile>
+    <dolBuiltArtifactFile>${project.build.directory}/${dolZip}</dolBuiltArtifactFile>
+    
+    <pdfPaperType>USletter</pdfPaperType>
+    
+    <!-- This next dir *must match* the one the PearPackagingMavenPlugin uses -->
+    <pearPackagingDir>${project.build.directory}/pearPackaging</pearPackagingDir>    
+  
+    <!-- poms wanting this need to set the postNoticeText to this value -->          
+    <ibmNoticeText>
+Portions of Apache UIMA were originally developed by
+International Business Machines Corporation and are
+licensed to the Apache Software Foundation under the
+"Software Grant License Agreement", informally known as the
+"IBM UIMA License Agreement".
+Copyright (c) 2003, 2006 IBM Corporation.         
+    </ibmNoticeText> 
+    <!-- next line commented out - to let standard source-release assembly descriptor as specified
+         in standard Apache parent pom be used -->
+    <!-- SourceReleaseAssemblyDescriptor>multimodule-source-release</sourceReleaseAssemblyDescriptor-->  
+  </properties>
+ 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.1</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
+  <!-- can't put this dependency at the top level - 
+       causes them to be included in children -->
+  <!--dependencies>
+    <dependency>
+      <groupId>org.apache.uima</groupId>
+      <artifactId>uima-build-resources</artifactId>
+      <version>1-SNAPSHOT</version>
+    </dependency>
+  </dependencies-->
+  
+  <repositories>
+    <!-- note: inheritance does *NOT* merge subparts,
+         so, redeclare them -->           
+    <!-- define repositories for getting Eclipse parts
+         because the one in "central" gives broken parts -->
+    <repository>
+      <id>eclipsePlugins</id>
+      <name>Eclipse components</name>
+      <layout>default</layout>
+      <url>http://repo1.maven.org/eclipse</url>
+      
+      <releases>
+        <updatePolicy>never</updatePolicy>
+        <checksumPolicy>fail</checksumPolicy>
+      </releases>
+      
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+
+    <!-- modify central repository access:
+         Turn on checksum checking-->
+    <repository>
+      <id>central</id>
+      <name>Maven Repository Switchboard</name>
+      <layout>default</layout>
+      <url>http://repo1.maven.org/maven2</url>
+
+      <releases>
+        <enabled>true</enabled>
+        <checksumPolicy>fail</checksumPolicy>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+
+    </repository>
+
+    <repository>
+      <id>apache.snapshots</id>
+      <name>Apache Snapshot Repository</name>
+      <url>http://repository.apache.org/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>  
+      
+  </repositories>
+  
+  <pluginRepositories>
+    <pluginRepository>
+      <id>apache.snapshots.plugins</id>
+      <name>Apache Snapshot Repository - Maven plugins</name>
+      <url>http://repository.apache.org/snapshots</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <checksumPolicy>fail</checksumPolicy>
+        <updatePolicy>never</updatePolicy>        
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+  
+  <build>
+    <pluginManagement>
+      <plugins>
+      
+        <!-- assembly plugin 
+             Disable running assembly:assembly with
+             warning message to use install instead -->
+        <plugin> 
+          <artifactId>maven-assembly-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>default-cli</id>
+              <configuration>
+                <descriptors>
+                  <descriptor>do-not-use--mvn-assembly-assembly--instead-use-mvn-install</descriptor>
+                </descriptors>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>1.7</version>
+        </plugin>
+        
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-plugin-plugin</artifactId>
+	        <configuration>
+            <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+	        </configuration>	        
+	        <executions>
+	          <execution>
+	            <!-- force to use process-classes phase so runs after Java Annotations are available -->
+	            <!-- https://issues.apache.org/jira/browse/UIMA-3072 -->
+	            <id>default-descriptor</id>
+	            <phase>process-classes</phase>
+	            <goals><goal>descriptor</goal></goals>
+	          </execution>
+	          <execution>
+	          </execution>
+	        </executions>
+        </plugin>
+        
+        <!-- set Java 1.5 as the source and target of compilation -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.5</source>
+            <target>1.5</target>
+            <!--encoding>UTF-8</encoding this inherited from apache pom 7 -->
+          </configuration>
+        </plugin>
+        
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.8</version> <!-- see https://issues.apache.org/jira/browse/UIMA-2963 -->
+        </plugin>
+        
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <!-- remove version after moving to apache parent pom 14 or later -->
+          <version>2.9.1</version> <!-- pick up fix for javadoc security issue, June 2013 -->
+          <configuration>
+            <source>5</source> <!-- needed to do Enums -->
+            <notimestamp>true</notimestamp>
+            <encoding>UTF-8</encoding>
+            <!-- if next is omitted, causes all projects in reactor that don't
+                     already have full javadocs built, to have them built -->
+            <detectOfflineLinks>false</detectOfflineLinks>
+            <quiet>true</quiet>            
+            <!-- identify tags we use so we don't get warning messages for them -->
+            <tags>
+              <tag>
+                <name>generated</name>
+                <placement>X</placement>
+              </tag>
+              <tag>
+                <name>ordered</name>
+                <placement>X</placement>
+              </tag>
+              <tag>
+                <name>modifiable</name>
+                <placement>X</placement>
+              </tag>
+              <tag>
+                <name>model</name>
+                <placement>X</placement>
+              </tag>
+              <tag>
+                <name>pre</name>
+                <placement>X</placement>
+              </tag>
+            </tags>                          
+          </configuration>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>          
+              <goals><goal>jar</goal></goals>
+              <!-- turn off javadoc build for each module by default 
+                   override in individual cases to turn back on if wanted --> 
+              <phase />            
+            </execution>
+          </executions>          
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>2.3.2</version>  <!-- version 2.4 gives error org.codehaus.plexus.archiver.jar.Manifest.merge(org.codehaus.plexus.archiver.jar.Manifest) 
+                                     see http://comments.gmane.org/gmane.comp.ide.eclipse.plugins.m2eclipse.user/9189 -->
+          <configuration>
+            <archive>
+              <manifestEntries>
+                <Project-Title>Apache UIMA</Project-Title>
+                <!-- Implementation-Title>${pom.name}</Implementation-Title from addDefaultImplementationEntries-->
+                <!-- Implementation-Version>${pom.version}</Implementation-Version from addDefaultImplementationEntries-->
+                <!-- Implementation-Vendor>Apache Software Foundation</Implementation-Vendor from addDefaultImplementationEntries-->
+                <!-- also added by default: 
+                       Implementation-Vendor-Id: ${pom.groupId} -->
+                <Implementation-Url>${uimaWebsiteUrl}</Implementation-Url>
+                <Implementation-License>http://www.apache.org/licenses/LICENSE-2.0.txt</Implementation-License>
+                <Build-Date>${buildDateTime}</Build-Date>
+              </manifestEntries>
+              <manifest>
+                <addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+        
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.ant</groupId>
+              <artifactId>ant</artifactId>
+              <!-- version 1.8.0 seems to be incompatible with some part of maven or m2eclipse -->
+              <version>1.7.1</version>
+            </dependency>
+            <dependency> <!-- for ant extension supporting "if" -->
+              <groupId>ant-contrib</groupId>
+              <artifactId>ant-contrib</artifactId>
+              <version>1.0b3</version>
+              <scope>runtime</scope>
+            </dependency>
+            <!-- next two enable <containsregexp> form for filesets -->
+            <dependency>
+              <groupId>ant</groupId>
+              <artifactId>ant-apache-regexp</artifactId>
+              <version>1.6.5</version>
+            </dependency>
+            <dependency>
+              <groupId>jakarta-regexp</groupId>
+              <artifactId>jakarta-regexp</artifactId>
+              <version>1.4</version>
+            </dependency>
+          </dependencies>          
+        </plugin>
+      
+        <!-- deprecated - move to m2eclipse, but keeping for now -->  
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-eclipse-plugin</artifactId>
+          <version>2.8</version>
+          <configuration>
+            <downloadSources>true</downloadSources>
+          </configuration>
+        </plugin>
+        
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <!-- version 2.0.0 fails -->
+          <!-- version 2.3.4 eliminates spurious warning messages -->
+          <!-- version 2.5 has accidental dependency on Java 6 -->
+          <version>2.3.7</version>
+          <extensions>true</extensions>
+          <executions>
+            <execution>
+              <id>uima-bundle</id>
+              <goals><goal>manifest</goal></goals>
+              <phase>process-classes</phase>
+            </execution>
+          </executions>
+        </plugin>
+        
+        <plugin>
+          <groupId>org.apache.rat</groupId>
+          <artifactId>apache-rat-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>default-cli</id>
+              <goals><goal>check</goal></goals>
+              <phase>verify</phase>
+              <!-- default configuration -->
+              <configuration>
+                <excludes>
+                  <exclude>release.properties</exclude> <!-- generated file -->
+                  <exclude>README*</exclude>
+                  <exclude>RELEASE_NOTES*</exclude>
+                  <exclude>issuesFixed/**</exclude> <!-- generated file -->
+                  <exclude>src/main/resources/docbook-shared/titlepage/*.xsl</exclude>
+                  <exclude>marker-file-identifying-*</exclude> <!-- empty file -->
+                  <exclude>DEPENDENCIES</exclude>  <!-- generated file -->
+				  <exclude>**/*/MANIFEST.MF</exclude> <!-- MANIFEST.MF files cannot have comments -->
+                </excludes>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        
+        <!-- generate the issuesFixed report of Jiras fixed in this release -->
+        <!-- uses the property "jiraVersion" to select the version -->
+        <!-- Runs automatically during release.
+             Can also be run manually using 
+             mvn changes:jira-report -N -DjiraVersion=xxxxxx  where
+             xxxxxx is the jira internal version number which you can get 
+             from the Jira url (see parameter fixforversion=xxxxxx) 
+             by going to https://issues.apache.org/jira/browse/UIMA 
+             and selecting "Releases" and then going to the 
+             particular version and looking in the url for
+             that version. -->        
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-changes-plugin</artifactId>
+          <version>2.8</version>  <!-- Apache-wide pom has no entry for this plugin -->
+          <executions>
+            <execution>
+              <id>default-cli</id>
+              <goals><goal>jira-report</goal></goals>
+              <!-- don't use generate-sources - because javadoc plugin re-exec's that -->
+              <phase>generate-resources</phase>        
+              <configuration>
+                <useJql>true</useJql>
+                <fixVersionIds>${jiraVersion}</fixVersionIds>
+                <columnNames>Type,Key,Status,Summary</columnNames>
+                <resolutionIds>Fixed</resolutionIds>
+                <statusIds>Closed,Resolved</statusIds>
+                <sortColumnNames>Type, Key</sortColumnNames>
+                <!-- changed sortColumnNames for Jira 5
+                     was: <sortColumnNames>Status, Key, Type</sortColumnNames>
+                 -->
+                <outputDirectory>${basedir}/issuesFixed/</outputDirectory>
+                <maxEntries>1000</maxEntries> <!-- hopefully, bigger than ever needed -->
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        
+        <plugin>
+          <groupId>org.apache.uima</groupId>
+          <artifactId>uima-build-helper-maven-plugin</artifactId>
+          <version>6</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    
+    <plugins>
+            
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-versions</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>3.0</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>1.5</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+            
+      <!-- sets the following properties:
+            parsedVersion.majorVersion
+            parsedVersion.minorVersion
+            parsedVersion.incrementalVersion
+            parsedVersion.qualifier
+            parsedVersion.buildNumber
+            parsedVersion.osgiVersion
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>parse-project-version</id>
+            <goals><goal>parse-version</goal></goals>
+            <configuration>
+              <propertyPrefix>parsedVersion</propertyPrefix>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.uima</groupId>
+        <artifactId>uima-build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>set buildYear and buildMonth</id>
+            <goals><goal>parse-date-time</goal></goals>
+            <configuration>
+              <parseSpecs>
+                <parseSpec>
+                  <name>buildYear</name>
+                  <format>yyyy</format>
+                </parseSpec>
+                <parseSpec>
+                  <name>buildMonth</name>
+                  <format>MMMM</format>
+                </parseSpec>                   
+              </parseSpecs>
+            </configuration>               
+          </execution>
+        </executions>
+      </plugin>     
+
+      <!-- this overrides the apache pom to 
+           use this resource bundle which
+           allows additional text after the NOTICE file
+           
+           Note: putting this in the pluginManagement section
+           fails to override the configuration from the
+           Apache common parent pom -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+        <executions>      
+          <execution>
+            <goals><goal>process</goal></goals>
+            <configuration>
+              <resourceBundles>
+                <resourceBundle>org.apache.uima:uima-build-resources:${uimaBuildResourcesVersion}</resourceBundle>
+              </resourceBundles>
+            </configuration>
+          </execution>
+        </executions>
+        <!--dependencies>  maybe for m2e
+	        <dependency>
+	          <groupId>org.slf4j</groupId>
+	          <artifactId>slf4j-simple</artifactId>
+	          <version>1.6.1</version>
+	        </dependency>
+        </dependencies-->
+        
+      </plugin>
+      
+    </plugins>     
+    
+  </build>
+  
+  <!--reporting-->
+  
+  <profiles>   
+    
+    <!-- ************************************************** -->
+    <!-- * apache-release                                 * -->
+    <!-- *   NOTE: This profile is activated while        * --> 
+    <!-- *    running the Maven build pipeline, usually   * -->
+    <!-- *      clean verify (for mvn release:prepare) or * -->
+    <!-- *      deploy (for mvn release;perform),         * -->
+    <!-- *    but is not activated for the                * -->
+    <!-- *    outer execution for mvn release...          * -->
+    <!-- *    on the pom being released                   * -->
+    <!-- ************************************************** -->
+    <!-- fix apache common pom --> 
+    <profile>
+      <id>apache-release</id>
+      <properties>
+        <isApacheRelease>true</isApacheRelease>
+      </properties>
+      
+      <build>
+        <plugins>
+        
+          <!-- to support multi-module source-release builds -->
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <dependencies>            
+              <dependency>
+                <groupId>org.apache.uima</groupId>
+                <artifactId>uima-build-resources</artifactId>
+                <version>${uimaBuildResourcesVersion}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+
+          
+          <!-- to run source plugin without forking -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>           
+            <executions>           
+              <execution>
+                <id>attach-sources-nf</id>           
+                <goals><goal>jar-no-fork</goal></goals>
+              </execution>
+              <execution>
+                <id>attach-sources</id>
+                <phase />  <!-- turn off the plain jar one -->
+              </execution>             
+            </executions>        
+          </plugin>
+          
+          <plugin>
+            <groupId>org.apache.rat</groupId>
+            <artifactId>apache-rat-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>default-cli</id>
+              </execution>
+            </executions>
+          </plugin>          
+          
+        </plugins>
+      </build>     
+    </profile>
+
+    <!-- *************************************************** -->
+    <!-- *   Run Rat report - for Jenkins                  * -->
+    <!-- * https://issues.apache.org/jira/browse/UIMA-2590 * -->
+    <!-- *************************************************** -->
+    <profile>
+      <id>run-rat-report</id>
+      
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.rat</groupId>
+            <artifactId>apache-rat-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>default-cli</id>
+              </execution>
+            </executions>
+          </plugin>          
+          
+        </plugins>
+      </build>     
+    </profile>
+
+    <!-- **************************************** -->
+    <!-- *   Produce Jira report                * -->
+    <!-- **************************************** -->
+
+    <profile>
+      <id>mavenJirareport</id>
+      <activation>
+        <!-- NOTE: if you try to make this work more generally, by 
+             using a marker file in all top-level release projects,
+             this approach fails because for other top-level
+             release projects, it substitutes the value of
+             the jiraVersion property from the top level pom, not
+             the pom being released.  So other release projects include
+             this kind of profile within themselves, in a profile
+             for "apache-release" triggered by name. -->
+             
+        <!-- It would be nice to have this only run when releasing, 
+             but the activation clauses are currently only
+             "ored" together, not "anded". -->
+             
+        <file><exists>marker-file-identifying-parent-pom</exists></file>
+      </activation>
+      <build>
+        <plugins>
+          <!-- overrides to enable release -->
+          <!-- to release 5-SNAPSHOT which includes uima-build-resources, hard code that version to 4 -->
+	        <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-remote-resources-plugin</artifactId>
+		        <executions>      
+		          <execution>
+		            <goals><goal>process</goal></goals>
+		            <configuration>
+		              <resourceBundles>
+		                <resourceBundle>org.apache.uima:uima-build-resources:${uimaBuildResourcesVersion}</resourceBundle>
+		              </resourceBundles>
+		            </configuration>
+		          </execution>
+		        </executions>		        
+		      </plugin>
+          
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <dependencies>            
+              <dependency>
+                <groupId>org.apache.uima</groupId>
+                <artifactId>uima-build-resources</artifactId>
+                <version>${uimaBuildResourcesVersion}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+          
+          <plugin>
+            <artifactId>maven-changes-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>default-cli</id>
+                <configuration>
+                  <fixVersionIds>${jiraVersion}</fixVersionIds>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!-- **************************************** -->
+    <!-- * Override - don't produce Jira report * -->
+    <!-- **************************************** -->
+    
+    <!-- NOTE: if you use this, you MUST check in
+         the generated Jira report into SVN, otherwise
+         it won't appear in the release assemblies. -->
+    
+    <profile>
+      <id>mavenJirareportSkip</id>
+      <activation>
+        <property>
+          <name>maven.jiraReport.skip</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!-- Skip jira report -->
+          <plugin>
+            <artifactId>maven-changes-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>default-cli</id> 
+                <phase />
+              </execution>
+            </executions>  
+          </plugin>
+        </plugins>
+      </build>
+
+    </profile>
+    
+    <!-- ********************************** -->
+    <!-- *   Docbook Processing           * -->
+    <!-- ********************************** -->
+
+  <!-- Skip docbook processing unless
+       the leaf child project has a docbook directory -->  
+    <profile>
+      <id>process-docbook</id>
+      <activation>
+        <file><exists>src/docbook</exists></file>
+      </activation>
+     
+      <!--dependencies-->
+        <!-- can't have a dependency in the parent pom - unless you want it
+             inherited by all child poms -->
+        <!-- dependency>
+          <groupId>org.apache.uima</groupId>
+          <artifactId>uima-build-resources</artifactId>
+          <version>1-SNAPSHOT</version>
+        </dependency -->
+        
+        <!-- having a dependency specified on 1-SNAPSHOT blocks release --> 
+        <!--dependency>
+          <groupId>org.apache.uima</groupId>
+          <artifactId>${dolArtifactId}</artifactId>
+          <type>zip</type>
+          <classifier>${dolClassifier}</classifier>
+          <version>1-SNAPSHOT</version>
+        </dependency-->
+      <!--/dependencies-->
+      
+      
+      
+      <build>
+        <plugins>
+          <!-- something to set some properties for dates used in copyright notices -->
+          <!-- Works, but is slow due to loading groovy -->      
+          <!--plugin>
+             <groupId>org.codehaus.groovy.maven</groupId>
+             <artifactId>gmaven-plugin</artifactId>
+             <version>1.0</version>
+             <executions>
+                <execution>
+                   <phase>prepare-package</phase>
+                   <goals>
+                      <goal>execute</goal>
+                   </goals>
+                   <configuration>
+                      <source>
+                      import java.util.Date 
+                      import java.text.MessageFormat 
+                      def varYear = MessageFormat.format("{0,date,yyyy}", new Date())
+                      def varMonth = MessageFormat.format("{0,date,MMMMMMMMM}", new Date()) 
+                      project.properties['buildYear'] = varYear
+                      project.properties['buildMonth'] = varMonth
+                      </source>
+                   </configuration>
+                </execution>
+             </executions>
+          </plugin-->
+                    
+          <!-- use the dependency:unpack goal to get the shared resource
+               that has the docbook-shared directory 
+               Unpack into spot relative to project - because
+               these are referred to in docbook sources using
+               relative references
+               
+               also unpack next to docbook-olink in
+               repository location for olink info, because
+               the site.xml files use relative location to
+               get at the uima entities -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <!-- use the dependency:unpack goal to get the shared resource
+                     that has the docbook-shared directory 
+                     Unpack into spot relative to project - because
+                     these are referred to in docbook sources using
+                     relative references -->
+                <id>copyDocbookInfo</id>
+                <phase>prepare-package</phase>
+                <goals><goal>unpack</goal></goals>
+                <configuration>
+                  <overWriteIfNewer>true</overWriteIfNewer>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.apache.uima</groupId>
+                      <artifactId>uima-build-resources</artifactId>
+                      <version>${uimaBuildResourcesVersion}</version>
+                      <includes>docbook-shared/**</includes>
+                      <outputDirectory>${project.build.directory}</outputDirectory>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+
+              <execution>
+                <!-- also unpack next to docbook-olink in
+                     repository location for olink info, because
+                     the site.xml files use relative location to
+                     get at the uima entities -->
+                <id>copyDocbookInfoNextToOlink</id>
+                <phase>prepare-package</phase>
+                <goals><goal>unpack</goal></goals>
+                <configuration>
+                  <overWriteIfNewer>true</overWriteIfNewer>
+                  <markersDirectory>${dolRepo}/dependency-maven-plugin-markers</markersDirectory>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.apache.uima</groupId>
+                      <artifactId>uima-build-resources</artifactId>
+                      <version>${uimaBuildResourcesVersion}</version>
+                      <includes>docbook-shared/**</includes>
+                      <outputDirectory>${dolRepo}</outputDirectory>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+
+              <!-- use the dependency:unpack goal to get the
+                   olink databases  -->
+              <execution>
+                <id>getOlink</id>
+                <phase>prepare-package</phase>
+                <goals><goal>unpack</goal></goals>
+                <configuration>
+                  <overWriteIfNewer>true</overWriteIfNewer>
+                  <markersDirectory>${dolRepo}/dependency-maven-plugin-markers</markersDirectory>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.apache.uima</groupId>
+                      <artifactId>${dolArtifactId}</artifactId>
+                      <version>1-SNAPSHOT</version>
+                      <type>zip</type>
+                      <classifier>${dolClassifier}</classifier>
+                      <outputDirectory>${dolUnzipped}</outputDirectory>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>                         
+            </executions>
+          </plugin>        
+          
+          <plugin>
+            <groupId>com.agilejava.docbkx</groupId>
+            <artifactId>docbkx-maven-plugin</artifactId>
+            <version>2.0.14</version>
+            <configuration>  <!-- general configuration for both html and pdf -->
+              <sourceDirectory>${basedir}/src/docbook</sourceDirectory>
+              <includes>${bookNameRoot}.xml</includes>
+              <highlightSource>1</highlightSource>
+              <xincludeSupported>true</xincludeSupported>
+              <!-- olink common to pdf and html -->
+              <collectXrefTargets>yes</collectXrefTargets>                  
+            </configuration>
+            <executions>
+              <execution>
+                <id>html</id>
+                <goals>
+                  <goal>generate-html</goal>
+                </goals>
+                <phase>package</phase>
+                <configuration>
+                  <targetDirectory>${project.build.directory}/site/d</targetDirectory>
+                  <htmlCustomization>${project.build.directory}/docbook-shared/top/html-single.xsl</htmlCustomization>
+                  <!-- olink -->
+                  <targetDatabaseDocument>file:///${dolUnzipped}/htmlsingle/site.xml</targetDatabaseDocument>              
+                  <targetsFilename>${dolUnzipped}/htmlsingle/${bookNameRoot}.db</targetsFilename>
+                </configuration>
+              </execution>
+              <execution>
+                <id>pdf</id>
+                <goals><goal>generate-pdf</goal></goals>
+                <phase>package</phase>
+                <configuration>
+                  <!-- pdf: generate first in docbkx, then move.  
+                       because pdf generates an extra temp file xxx.fo
+                       which we want to keep a bit in target in case of debug need -->
+                       
+                  <foCustomization>${project.build.directory}/docbook-shared/top/pdf.xsl</foCustomization>
+                  <!-- olink -->
+                  <targetDatabaseDocument>file:///${dolUnzipped}/pdf/site.xml</targetDatabaseDocument>
+                  <targetsFilename>${dolUnzipped}/pdf/${bookNameRoot}.db</targetsFilename>                 
+                  
+                  <fop1Extensions>true</fop1Extensions>
+                      
+                  <fontSelectionStrategy>character-by-character</fontSelectionStrategy>
+                  
+                  <fonts>
+                    <!-- embedded fonts -->
+                    <!--
+                    This information must exactly match the font specified
+                    in the fo file. Otherwise it will use a default font.
+            
+                    For example,
+                    <fo:inline font-family="Arial" font-weight="bold" font-style="normal">
+                        Arial-normal-normal font
+                    </fo:inline>
+                    for the font triplet specified by:
+                    <font-triplet name="Arial" style="normal" weight="bold" />
+            
+                    If you do not want to embed the font in the pdf document
+                    then do not include the "embed-url" attribute.
+                    The font will be needed where the document is viewed
+                    for it to be displayed properly.
+            
+                    possible styles: normal | italic | oblique | backslant
+                    possible weights: normal | bold | 100 | 200 | 300 | 400
+                                      | 500 | 600 | 700 | 800 | 900
+                    (normal = 400, bold = 700)
+                    -->
+            
+                    <!--
+                    <font metrics-url="arial.xml" kerning="yes" embed-url="arial.ttf">
+                      <font-triplet name="Arial" style="normal" weight="normal" />
+                      <font-triplet name="ArialMT" style="normal" weight="normal" />
+                    </font>
+                    <font metrics-url="arialb.xml" kerning="yes" embed-url="arialb.ttf">
+                      <font-triplet name="Arial" style="normal" weight="bold" />
+                      <font-triplet name="ArialMT" style="normal" weight="bold" />
+                    </font>
+                    -->
+                    
+                    <!-- per UIMA-1051 - change to use standard Times Roman default PDF font -->
+                    <!--font>
+                      <name>Palatino</name>
+                      <style>normal</style>
+                      <weight>normal</weight>
+                      <kerning>yes</kerning>
+                      <embedFile>c:/Windows/Fonts/pala.TTF</embedFile>
+                      <metricsFile>${project.build.directory}/docbook-shared/fonts/palatino.xml</metricsFile>
+                    </font>
+                    <font>
+                      <name>Palatino</name>
+                      <style>normal</style>
+                      <weight>bold</weight>
+                      <kerning>yes</kerning>
+                      <embedFile>c:/Windows/Fonts/palab.TTF</embedFile>
+                      <metricsFile>${project.build.directory}/docbook-shared/fonts/palatino-bold.xml</metricsFile>
+                    </font>
+                    <font>
+                      <name>Palatino</name>
+                      <style>italic</style>
+                      <weight>normal</weight>
+                      <kerning>yes</kerning>
+                      <embedFile>c:/Windows/Fonts/palai.TTF</embedFile>
+                      <metricsFile>${project.build.directory}/docbook-shared/fonts/palatino-italic.xml</metricsFile>
+                    </font>
+                    <font>
+                      <name>Palatino</name>
+                      <style>italic</style>
+                      <weight>bold</weight>
+                      <kerning>yes</kerning>
+                      <embedFile>c:/Windows/Fonts/palabi.TTF</embedFile>
+                      <metricsFile>${project.build.directory}/docbook-shared/fonts/palatino-bold-italic.xml</metricsFile>
+                    </font-->
+                    
+                  </fonts>
+                  <paperType>${pdfPaperType}</paperType>                 
+                </configuration>
+              </execution>          
+            </executions>
+    
+            <dependencies>
+              <dependency>
+                <groupId>org.docbook</groupId>
+                <artifactId>docbook-xml</artifactId>
+                <version>4.4</version>
+                <scope>runtime</scope>
+              </dependency>
+            </dependencies>   
+          </plugin>
+        
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              <!-- copy the images to the html/images dir -->  
+              <execution>
+                <id>docbook-copy-images</id>
+                <goals><goal>copy-resources</goal></goals>
+                <phase>package</phase>
+                <configuration>
+                  <outputDirectory>${project.build.directory}/site/d/images</outputDirectory>
+                  <resources>
+                    <resource><directory>src/docbook/images</directory></resource>
+                  </resources>
+                </configuration>
+              </execution>
+              <!-- copy the css stylesheet to the html dir -->  
+              <execution>
+                <id>docbook-copy-css</id>
+                <goals><goal>copy-resources</goal></goals>
+                <phase>package</phase>
+                <configuration>
+                  <outputDirectory>${project.build.directory}/site/d/css</outputDirectory>
+                  <resources>
+                    <resource><directory>${project.build.directory}/docbook-shared/css</directory></resource>
+                  </resources>
+                </configuration>
+              </execution>
+              <!-- move the pdf from the docbkx to the site/d/ -->  
+              <execution>
+                <id>docbook-move-pdf</id>
+                <goals><goal>copy-resources</goal></goals>  <!-- no "move" goal, use copy -->
+                <phase>package</phase>
+                <configuration>
+                  <outputDirectory>${project.build.directory}/site/d</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${project.build.directory}/docbkx/pdf</directory>
+                      <excludes><exclude>**.fo</exclude></excludes>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>           
+        </plugins>                    
+      </build>
+    </profile> 
+       
+    
+    <!-- ************************************ -->
+    <!-- * Build Custom Binary Distribution * -->
+    <!-- ************************************ -->
+    <profile>
+      <id>build distribution</id>
+      <activation>
+        <file><exists>src/main/assembly/bin.xml</exists></file>
+      </activation>
+      <build>
+        <plugins>
+          
+	        <!-- assembly plugin 
+	             configuration to create bin and src distributions
+	             from conventional places -->
+	        <plugin> 
+	          <artifactId>maven-assembly-plugin</artifactId>
+	          <executions>
+	            <execution>
+	              <id>uima-distr</id>
+	              <goals><goal>single</goal></goals>
+	              <phase>integration-test</phase> <!-- after first copies from jar/docbk pkg -->
+	              <configuration>
+	                <descriptors>
+	                  <descriptor>src/main/assembly/bin.xml</descriptor>
+	                  <!-- next is replaced with more standard source-release assembly -->
+	                  <!-- descriptor>src/main/assembly/src.xml</descriptor -->
+	                </descriptors>
+	                <finalName>${assemblyFinalName}</finalName>
+	                <tarLongFileMode>gnu</tarLongFileMode>
+	              </configuration>              
+	            </execution>
+	          </executions>
+	        </plugin>
+
+          <!-- https://issues.apache.org/jira/browse/UIMA-2008 -->
+          <!-- no maven deployment of this project's artifacts -->
+          <!-- binary build artifact deployed from apache mirror system after release -->
+          <plugin>
+            <artifactId>maven-deploy-plugin</artifactId>      
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>generate checksums for binary artifacts</id>
+                <goals><goal>run</goal></goals>
+                <phase>verify</phase>
+                <configuration>
+                  <target>
+                    <checksum algorithm="sha1" format="MD5SUM">
+                      <fileset dir="${project.build.directory}">
+                        <include name="*.zip" />
+                        <include name="*.gz" />
+                      </fileset>
+                    </checksum>
+                    <checksum algorithm="md5" format="MD5SUM">
+                      <fileset dir="${project.build.directory}">
+                        <include name="*.zip" />
+                        <include name="*.gz" />
+                      </fileset>
+                    </checksum>
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+	        
+        </plugins>                    
+      </build>
+    </profile>
+
+    <!-- ************************************ -->
+    <!-- *   Build Eclipse Plugin           * -->
+    <!-- ************************************ -->
+    <profile>
+      <id>build eclipse plugins</id>
+      <activation>
+        <file>
+          <exists>marker-file-identifying-eclipse-plugin</exists>
+        </file>
+      </activation>
+      <build>
+        <finalName>${project.artifactId}_${parsedVersion.osgiVersion}</finalName>         
+                
+        <!-- resources are "merged" -->
+            <!-- needed to copy resources, icons, and the plugin.xml to the result -->
+        <resources>
+          <resource>
+            <directory>.</directory>
+            <includes>
+              <include>plugin.xml</include>
+              <!-- include subdir of icons too, [UIMA-1958] -->
+              <include>icons/**/*.*</include>
+            </includes>
+          </resource>
+          <!-- need the following, is not "merged" from the overall maven superPom -->
+          <resource>
+            <directory>src/main/resources</directory>
+          </resource>
+        </resources>
+     
+        <pluginManagement>
+          
+          <!-- run the felix plugin in manifest mode
+               because that plugin doesn't resolve
+               all properties e.g., parsedVersion.osgiVersion -->
+          <plugins>
+            <plugin>
+              <groupId>org.apache.felix</groupId>
+              <artifactId>maven-bundle-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>uima-bundle</id>
+                  <goals><goal>manifest</goal></goals>
+                  <phase>process-classes</phase>
+                  <configuration>
+                    <!-- we put the generate manifest in the spot where Eclipse 
+                         plugins think it will be -->
+                   <manifestLocation>META-INF/</manifestLocation>
+                  </configuration>
+                </execution>
+                <!-- turn off unneeded executions --> 
+                <execution>
+                  <id>default-deploy</id>
+                  <phase />
+                </execution>
+                <execution>
+                  <id>default-install</id>
+                  <phase />
+                </execution>
+                <execution>
+                  <id>default-bundle</id>
+                  <phase />
+                </execution>
+              </executions>
+            </plugin>
+    
+            <!-- pick up the manifest felix generates -->        
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-jar-plugin</artifactId>
+              <configuration>
+                <archive>
+                  <manifestFile>META-INF/MANIFEST.MF</manifestFile>
+                </archive>
+              </configuration>       
+            </plugin>
+    
+            <!-- special eclipse:eclipse configuration for Eclipse plugins -->        
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-eclipse-plugin</artifactId>
+              <!--  version set in parent-pom-top -->
+              <configuration>
+                <manifest>.ignore</manifest>
+                <pde>true</pde>
+                <!-- set next to false because refs to runtime project
+                     as a project don't work (because it is a library project,
+                     and has no sources of its own 
+                  
+                  A consequence of this: If you change code a plugin depends on,
+                  run "mvn install" on the changed code to get your plugin to
+                  pick up the changes 
+                  -->
+                <useProjectReferences>false</useProjectReferences>
+              </configuration>
+            </plugin>
+                  
+          </plugins>
+        </pluginManagement> 
+        
+        <plugins>
+        
+		      <plugin> <!-- https://issues.apache.org/jira/browse/UIMA-2966  -->
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-antrun-plugin</artifactId>
+		        <executions>
+		          <execution>
+		            <id>dup-meta-jar-cleanup</id>
+		            <goals><goal>run</goal></goals>
+		            <phase>prepare-package</phase>  <!--  before Jar plugin -->
+		            <configuration>
+		              <target>
+		                <delete file="${project.build.directory}/classes/META-INF/maven/${project.groupId}/${project.artifactId}/pom.xml" quiet="true" />
+		                <delete file="${project.build.directory}/classes/META-INF/maven/${project.groupId}/${project.artifactId}/pom.properties" quiet="true" />
+		              </target>
+		            </configuration>
+		          </execution>
+		          
+              <!-- https://issues.apache.org/jira/browse/UIMA-2967  -->
+		          <execution>
+                <id>clear-META-INF</id>
+                <goals><goal>run</goal></goals>
+                <phase>compile</phase>  <!--  before maven-bundle-plugin plugin -->
+                <configuration>
+                  <target>
+                    <delete file="META-INF/MANIFEST.MF" quiet="true" />
+                  </target>
+                </configuration>
+              </execution>
+		        </executions>
+		      </plugin>
+        
+        </plugins>   
+      </build>
+    </profile>
+    
+    <!-- ************************************ -->
+    <!-- *   Build Eclipse Feature          * -->
+    <!-- ************************************ -->
+    <profile>
+      <id>build eclipse features</id>
+      <activation>
+        <file>
+          <exists>marker-file-identifying-eclipse-feature</exists>
+        </file>
+      </activation>
+      <build>
+        <finalName>${project.artifactId}_${parsedVersion.osgiVersion}</finalName>
+        <!-- turn on filtering for these resources -->         
+        <resources>
+          <resource>
+            <directory>${basedir}</directory>
+            <includes>
+              <include>feature.properties</include>
+              <include>feature.xml</include>
+              <include>uima-eclipse-user-agreement.html</include>
+            </includes>
+            <filtering>true</filtering>
+          </resource>
+        </resources>
+
+        <!-- The feature.xml is filtered here, rather than in going from the 
+             top level place to the Jar, because Eclipse feature manipulation
+             uses the top level value.         
+         -->
+        <plugins>
+          <!-- filter the feature.xml to have the right version info 
+              for Eclipse at the top level --> 
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>filter feature.xml</id>
+                <!-- run before process-resources, which uses this result -->
+                <phase>generate-resources</phase>
+                <goals><goal>copy-resources</goal></goals>
+                <configuration>
+                  <outputDirectory>${basedir}</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>src/main/resources</directory>
+                      <includes><include>feature.xml</include></includes>
+                      <filtering>true</filtering>
+                    </resource>
+                  </resources> 
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>    
+
+    <!-- ************************************ -->
+    <!-- *   Build Eclipse Update Subsite   * -->
+    <!-- ************************************ -->
+    <profile>
+      <id>build-eclipse-update-subsite</id>
+      <activation>
+        <file>
+          <exists>marker-file-identifying-eclipse-update-site</exists>
+        </file>
+      </activation>
+      <properties>
+        <eusWork>${project.build.directory}/eus-work</eusWork>          
+        <toBePacked>${project.build.directory}/toBePacked</toBePacked>
+        <distsvnroot>https://dist.apache.org/</distsvnroot>
+<!--         <distsvnroot>file:///svn/t/</distsvnroot>    -->
+      </properties>
+      <build>
+          <plugins>
+
+          <!-- ============================================================================ --> 
+          <!--           U s e   o f   d i s t . a p a c h e . o r g    S V N               -->
+          <!--                                                                              --> 
+          <!--  Goals: avoid copying to /release/, use svn commit to do                     --> 
+          <!--           just the changed files                                             --> 
+          <!--         for safety, work in the /dev/ area                                   --> 
+          <!--         For vote, user can do commit to /dev/ area                           --> 
+          <!--         After vote, user does svn switch to /release/ area and commits       --> 
+          <!--                                                                              --> 
+          <!--  svn (release) -> svn (dev) -> checkout +                                    --> 
+          <!--  srcs -> toBePacked -> eus-work - - - - +-> subsite -> (manual) commit       --> 
+          <!--                                    SC         SC                             --> 
+          <!--                                                                              --> 
+          <!--    SC = sign & checksum                                                      --> 
+          <!--         the 2nd SC is for the updated artifacts and contents of the subsite  --> 
+          <!-- ============================================================================ --> 
+		       
+          <!-- ============================================================================ --> 
+          <!--                   O v e r a l l    F l o w                                   -->
+          <!--                                                                              --> 
+          <!--  PROCESS-SOURCES                                                             --> 
+          <!--     New plugins to be compressed -> target/toBePacked                        --> 
+          <!--                                                                              --> 
+          <!--     New features to be included -> target/eus-work                           --> 
+          <!--         (eus = Eclipse Update Site)                                          --> 
+          <!--                                                                              --> 
+          <!--     filter category.xml to pick up version #                                 --> 
+          <!--                                                                              --> 
+          <!--  PACKAGE                                                                     --> 
+          <!--     Pack step goes from target/toBePacked -> target/eus-work                 --> 
+          <!--                                                                              --> 
+          <!--     svn del in .../dev/... the eclipse-update-site/[componnt]                --> 
+          <!--     svn copy from .../release/ to dev the [component]                        --> 
+          <!--     Dev SVN checkout -> target/eclipse-update-site/[component]               -->
+          <!--           (This is the current site - to be updated)                         --> 
+          <!--                                                                              --> 
+          <!--     Publish metadata goes from target/eus-work -> eclipse-update-site/[comp] -->
+          <!--         (publish run in "append" mode)                                       --> 
+		      <!--                                                                              --> 
+		      <!--     Category update goes from target/eus-work -> eclipse-update-site/[comp]  --> 
+		      <!--                                                                              -->
+		      <!--     (if apache-release:                                                      -->
+          <!--        do checksums and sign in target/eus-work                              --> 
+		      <!--        delete prev checksums and signature for artifacts/content.jar         -->
+		      <!--        add new checksum/sign for these two jars                              -->
+		      <!--        copy all checksums/signatures from eus-work                           -->
+		      <!--     )                                                                        -->
+		      <!--                                                                              -->
+		      <!-- ============================================================================ --> 
+		
+          <!-- ============================================================================ -->
+          <!--    Alternate flow if apache-release is not defined -                         -->
+          <!--      skip getting previous update site from dist.apache.org                  -->
+          <!-- ============================================================================ -->
+		      		
+		      <!-- filter the category.xml to have the right version info 
+		           for Eclipse at the top level-->
+		      <plugin>
+		        <artifactId>maven-resources-plugin</artifactId>
+		        <executions>
+		          <execution>
+		            <id>filter-category.xml</id>
+		            <!-- run before package, which uses this result -->
+		            <phase>process-sources</phase>
+		            <goals><goal>copy-resources</goal></goals>
+		            <configuration>
+		              <outputDirectory>${basedir}</outputDirectory>
+		              <resources>
+		                <resource>
+		                  <directory>src/main/resources</directory>
+		                  <includes><include>category.xml</include></includes>
+		                  <filtering>true</filtering>
+		                </resource>
+		              </resources> 
+		            </configuration>
+		          </execution>
+		        </executions>
+		      </plugin>		      
+		      
+		      <plugin>
+		        <artifactId>maven-antrun-plugin</artifactId>
+		        <executions>
+		        
+		          <execution>
+		            <id>BuildUpdateSite-clearWorkAreas</id>
+		            <phase>initialize</phase>
+		            <goals><goal>run</goal></goals>
+		            <configuration>
+		              <target>
+		                <delete dir="${toBePacked}" quiet="true" />
+		                <delete dir="${eusWork}" />
+		              </target>
+		            </configuration>
+		          </execution>
+		          
+		          <execution>
+		            <id>BuildUpdateSite-pack-svnget-buildMetadata-commit-to-dev</id>
+		            <phase>package</phase>  
+		            <goals><goal>run</goal></goals>
+		            <configuration>
+		              <target>
+		              <taskdef name="if" classname="net.sf.antcontrib.logic.IfTask" />
+		                
+		                <!-- =================================== -->
+		                <!--   Check we can access build tools   -->
+		                <!-- =================================== -->
+		                <!-- if the property uima-maven-build-eclipse-home is set, use it, otherwise don't -->
+		                <condition property="eclipse.home" value="${uima-maven-build-eclipse-home}">
+		                  <not>
+		                    <equals arg1="${uima-maven-build-eclipse-home}" arg2="$${uima-maven-build-eclipse-home}" />
+		                  </not>
+		                </condition>
+		
+		                <property environment="envVar" />
+		                <condition property="eclipse.home" value="${envVar.ECLIPSE_HOME}">
+		                  <isset property="envVar.ECLIPSE_HOME" />
+		                </condition>
+		
+		                <fail unless="eclipse.home" message="********** Please set up and use an ant property eclipse.home set to an Eclipse installation at level 3.3 or later, e.g. c:/eclipses/3.3/eclipse" />
+		
+		                <fail unless="uima-eclipse-jar-processor" message="********** Please add to your settings.xml file the property uima-eclipse-jar-processor, point to this within an Eclipse installation at level 4.2 or later, e.g. \$\{uima-maven-build-eclipse-home\}/plugins/org.eclipse.equinox.p2.jarprocessor_1.0.200.v20110808-1657.jar" />
+		
+		                <!-- =================================== -->
+		                <!-- SVN remote copy from release to dev -->
+		                <!--   and checkout to subsite           -->
+		                <!-- =================================== -->
+		                <if>
+		                  <isset property="apacheRelease" />
+		                  <then>
+		                    <echo>copying svn dist release to dev for eclipse update subsite ${eclipseUpdateSiteComponent}</echo>
+		                    <exec executable="svn">
+		                      <arg value="delete" />
+		                      <arg value="${distsvnroot}repos/dist/dev/uima/eclipse-update-site/${eclipseUpdateSiteComponent}" />
+		                      <arg value="--force" /> 
+		                      <arg value="-m" />
+		                      <arg value="prepare for building eclipse update site component ${eclipseUpdateSiteComponent}" />
+		                    </exec> 
+		    
+		                    <exec executable="svn">
+		                      <arg value="copy" />
+		                      <arg value="${distsvnroot}repos/dist/release/uima/eclipse-update-site/${eclipseUpdateSiteComponent}" />
+		                      <arg value="${distsvnroot}repos/dist/dev/uima/eclipse-update-site/" />
+		                      <arg value="-m" />
+		                      <arg value="prepare for building eclipse update site component ${eclipseUpdateSiteComponent}" />
+		                    </exec> 
+		    
+		                    <echo>checking out eclipse update subsite ${eclipseUpdateSiteComponent} from dist ...dev...</echo>
+		                    <delete dir="${eclipseUpdateSubSite}" />
+		                    <exec executable="svn">
+		                      <arg value="checkout" />
+		                      <arg value="--quiet" />
+		                      <arg value="${distsvnroot}repos/dist/dev/uima/eclipse-update-site/${eclipseUpdateSiteComponent}" />
+		                      <arg value="${eclipseUpdateSubSite}" />
+		                    </exec> 
+		                  </then>
+		                  <else>
+		                    <echo>skipping (because not apache-release) copying svn dist release to dev for eclipse update subsite ${eclipseUpdateSiteComponent}</echo>
+		                  </else>
+		                </if>
+		                  
+		                <echo>Compress plugin Jars using pack200 - this may take a minute or 2</echo>
+		                <java jar="${uima-eclipse-jar-processor}" fork="true" failonerror="true" maxmemory="256m">
+		                  <arg line="-processAll" />
+		                  <arg line="-repack" />
+		                  <arg line="-pack" />
+		                  <arg line="-verbose" />
+		                       <!--  only pack the plugins.  The publisher won't copy packed "features", 
+		                             they are tiny anyways --> 
+		                  <arg line="-outputDir ${eusWork}/plugins" />
+		                  <arg line="${toBePacked}" />
+		                </java>
+		 
+		                <!-- copy also the original unpacked jars to the subsite in the plugins dir -->               
+		                <copy todir="${eusWork}/plugins">
+		                  <fileset dir="${toBePacked}" />
+		                </copy>
+		                
+		                <echo>Generate p2 metadata</echo>
+		                <java jar="${eclipse-equinox-launcher}" fork="true" failonerror="true" maxmemory="256m">
+		                  <arg line="-application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher" />
+		                  <arg line="-metadataRepository file:///${eclipseUpdateSubSite}" />
+		                  <arg line="-artifactRepository file:///${eclipseUpdateSubSite}" />
+		                  <arg line="-source ${eusWork}" />
+		                  <arg line="-configs ANY.ANY.ANY" />
+		                  <arg line="-publishArtifacts" />
+		                  <arg line="-reusePack200Files" />
+		                  <arg line="-compress" />
+		                  <arg line="-append" />
+		                </java>
+		                
+		                <echo>Generate category information</echo>
+		                <java jar="${eclipse-equinox-launcher}" fork="true" failonerror="true" maxmemory="256m">
+		                  <arg line="-application org.eclipse.equinox.p2.publisher.CategoryPublisher" />
+		                  <arg line="-metadataRepository file:///${eclipseUpdateSubSite}" />
+		                  <arg line="-categoryDefinition file:///${basedir}/category.xml" />
+		                  <arg line="-categoryQualifier apache-uima" />
+		                  <arg line="-compress" />
+		                </java>  
+		      
+
+                    <!-- ========================================== -->
+                    <!--   If apache-release, do checksums and sign -->
+                    <!-- ========================================== -->
+                    		      
+		                <if>
+		                  <equals arg1="${isApacheRelease}" arg2="true" />
+		                  <then>
+
+		                    <echo message="Generating checksums for new features and plugins" />
+		                    <checksum algorithm="sha1" format="MD5SUM">
+		                      <fileset dir="${eusWork}">
+		                        <include name="**/*.gz" />
+		                        <include name="**/*.jar" />
+		                      </fileset>
+		                    </checksum>
+		                    <checksum algorithm="md5" format="MD5SUM">
+		                      <fileset dir="${eusWork}">
+		                        <include name="**/*.gz" />
+		                        <include name="**/*.jar" />
+		                      </fileset>
+		                    </checksum>
+		
+		                    <echo message="Generating gpg signatures for new features and plugins" />
+		                    <apply executable="gpg" dir="${eusWork}"> 
+		                      <arg value="--detach-sign" />
+		                      <arg value="--armor" />
+		                      <!-- batch flag needed to avoid gpg hang up -->
+		                      <arg value="--batch" />
+		                      <fileset dir="${eusWork}">
+		                        <include name="**/*.jar" />
+		                        <include name="**/*.jar.pack.gz" />
+		                      </fileset>
+		                    </apply> 
+		                    
+		                    <copy todir="${eclipseUpdateSubSite}">
+		                      <fileset dir="${eusWork}">
+		                        <include name="**/*.asc" />
+		                        <include name="**/*.md5" />
+		                        <include name="**/*.sha1" />
+		                      </fileset>
+		                    </copy>
+		
+		                    <echo message="Clearing previous checksums and signatures for update artifacts.jar and content.jar" />
+		                    <delete dir="${eclipseUpdateSubSite}">
+		                      <include name="*.sha1" />
+		                      <include name="*.md5" />
+		                      <include name="*.asc" />
+		                    </delete>                   
+		                    <echo message="Generating checksums for updated artifacts.jar and content.jar" />
+		
+		                    <checksum algorithm="sha1" format="MD5SUM">
+		                      <fileset dir="${eclipseUpdateSubSite}">
+		                         <include name="*.jar" />
+		                      </fileset>
+		                    </checksum>
+		
+		                    <checksum algorithm="md5" format="MD5SUM">
+		                      <fileset dir="${eclipseUpdateSubSite}">
+		                        <include name="*.jar" />
+		                      </fileset>
+		                    </checksum>
+		
+		                    <echo message="Generating gpg signatures for artifacts.jar and content.jar" />
+		                    <apply executable="gpg" dir="${eclipseUpdateSubSite}"> 
+		                      <arg value="--detach-sign" />
+		                      <arg value="--armor" />
+		                      <!-- batch flag needed to avoid gpg hang up -->
+		                      <arg value="--batch" />
+		                      <fileset dir="${eclipseUpdateSubSite}">
+		                        <include name="*.jar" />
+		                      </fileset>
+		                    </apply> 
+		
+		                  </then>		                  
+		                </if>          
+		                              
+		                
+		              </target>
+		            </configuration>
+		          </execution>
+		          
+		        </executions>
+		      </plugin>
+		    </plugins>
+      
+      </build>
+    </profile>
+
+    <!-- **************************************** -->
+    <!-- * Build Simple Project Binary Assembly * -->
+    <!-- **************************************** -->
+    <!-- this profile holds common, factored-out settings for all 
+     projects that are packaged as single projects
+     (that is, not as multi-module projects), typically Sandbox projects.
+     
+     It builds, in addition to the standard artifacts and attachments,
+     a binary artifact, which includes:
+       - The main generated artifact, in the lib/ dir
+       - dependent artifacts needed at runtime (not otherwise provided), in the lib/ dir
+       - Lic/Not/Readme/releaseNotes from root dir 
+       - generated documentation in the docs/ dir
+     
+     At release time the standard Apache parent builds the 
+       - "source-release" artifact, and the
+       - "javadocs" artifact
+     
+     Conventions:
+     
+       License/Notice for Jar: uses the standard license/notice
+       License/Notice for bin: uses the custom files from project top level
+       dependencies on other artifacts: 
+         Specified as scope runtime or compile causes these to be included in the lib dir
+       
+    -->    
+    <profile>
+      <id>build simple project binary assembly</id>
+      <activation>
+        <file>
+          <exists>marker-file-identifying-single-project</exists>
+        </file>
+      </activation>
+      <build>        
+        <plugins>
+
+          <!-- ********************************************* -->
+          <!-- * Common Build                                -->
+          <!-- *   *** FOR addons only ***                   -->
+          <!-- ********************************************* -->
+          <!-- *   Base Jar is built,                        --> 
+          <!-- *     has no dependencies included            -->
+          <!-- *     has basic LICENSE/NOTICE files          -->
+          <!-- *   Base augmented dir built                  -->
+          <!-- *     has Base Jar in lib/                    -->
+          <!-- *     has dependencies in lib/                -->
+          <!-- *     has other things that go into PEAR      -->
+          <!-- *       except the pear install.xml           -->
+          <!-- *     has augmented LICENSE/NOTICE files      -->
+          <!-- *                                             -->
+          <!-- *     This base is reused to make packages:   -->
+          <!-- *       PEAR - adds the install.xml           -->
+          <!-- *            - actually, the PEAR builder     -->
+          <!-- *              will redo the copies, itself   -->
+          <!-- *       OSGi - adds the OSGi manifest         -->
+          <!-- *            - removes the doc, javadocs      -->
+          <!-- *       individual zip/tar                    -->
+          <!-- *       addons aggregate binary zip/tar       -->
+          <!-- ********************************************* -->
+
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>          
+                <!-- turn on javadoc build for each module --> 
+                <phase>package</phase> 
+              </execution>
+            </executions>           
+          </plugin>
+              
+          <!-- Build  base -->
+            <!-- populate the lib dir with all needed dependencies
+                 that will be distributed with this component
+                 
+                 NOTE: TRANSITIVE DEPENDENIES ARE NOT INCLUDED
+                       ANYTHING YOU WANT INCLUDED IN THE JAR 
+                       PLEASE LIST EXPLICITLY AND MODIFY THE LICENSE/NOTICE
+                       APPROPRIATELY
+                  
+                 Runs during process-resources -->
+                         
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <!-- Copy the dependencies to the target/base-bin/lib folder -->
+              <execution>
+                <id>copy dependencies to base-bin/lib</id>
+                <goals><goal>copy-dependencies</goal></goals>
+                <phase>process-resources</phase>
+                <configuration>
+                  <outputDirectory>${project.build.directory}/base-bin/lib</outputDirectory>
+                  <includeScope>runtime</includeScope>
+                  <excludeTransitive>true</excludeTransitive>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              
+              <!-- add directories if they exist -->
+              <execution>
+                <id>copy standard dirs and files to base-bin</id>
+                <goals><goal>copy-resources</goal></goals>
+                <phase>process-resources</phase>  <!-- required -->
+                <configuration>
+                  <outputDirectory>${project.build.directory}/base-bin</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>.</directory>
+                      <includes>
+                        <include>desc/**</include>
+                        <include>conf/**</include>
+                        <include>data/**</include>
+                        <include>doc/**</include>
+                        <include>docs/**</include>
+                        <include>resources/**</include>
+                        <include>bin/**</include>
+                        <include>LICENSE*</include>
+                        <include>NOTICE*</include>
+                        <include>README*</include>
+                        <include>readme*</include>
+                        <include>RELEASE_NOTES*</include>
+                        <include>ReleaseNotes*</include>
+                        <include>issuesFixed/**</include> 
+                      </includes>
+                    </resource>
+                    <resource>
+                      <directory>src/main/readme</directory>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+              
+              
+              <!-- copy generated Jar to base-bin/lib spot -->
+              <execution>
+                <id>copy standard target jar to base-bin/lib</id>
+                <goals><goal>copy-resources</goal></goals>
+                <phase>pre-integration-test</phase>  <!-- a phase after jar -->
+                <configuration>
+                  <outputDirectory>${project.build.directory}/base-bin/lib</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${project.build.directory}</directory>
+                      <includes><include>*.jar</include></includes>
+                      <excludes>
+                        <exclude>*-sources.jar</exclude>
+                        <exclude>*-osgi.jar</exclude>
+                      </excludes>     
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+              
+              <!-- copy generated docbook artifacts -->        
+              <execution>
+                <id>copy generated docbook artifacts to base-bin/doc folder</id>
+                <goals><goal>copy-resources</goal></goals>
+                <phase>pre-integration-test</phase>  <!-- a phase after docbkx (package) phase -->
+                <configuration>
+                  <outputDirectory>${project.build.directory}/base-bin/doc</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${project.build.directory}/site/d</directory>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>          
+            </executions>
+          </plugin>
+                  
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>binary-release</id> <!-- is "classifier" - match maven convention -->
+                <goals><goal>single</goal></goals>
+                <phase>integration-test</phase>  <!-- after first copies from jar/docbk pkg -->
+                <configuration>
+                  <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
+                  <descriptorRefs>
+                    <descriptorRef>
+                      uima-single-project-bin2
+                    </descriptorRef>
+                  </descriptorRefs>
+                </configuration>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>org.apache.uima</groupId>
+                <artifactId>uima-build-resources</artifactId>
+                <version>${uimaBuildResourcesVersion}</version>
+              </dependency>
+            </dependencies>
+          </plugin>    
+        </plugins>       
+      </build>
+    </profile>
+        
+    <!-- ********************************** -->
+    <!-- *   Build OSGi bundle            * -->
+    <!-- ********************************** -->     
+    <profile>
+      <id>build OSGi bundle for annotator</id>
+      <activation>
+        <file>
+          <exists>marker-file-identifying-osgi-project</exists>
+        </file>
+      </activation>
+           
+      <build>  
+        
+        <plugins> 
+        
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+                            
+              <!-- copy the base-bin dir to the osgi dir -->
+              <execution>
+                <id>Copy base-bin to osgi</id>
+                <goals><goal>copy-resources</goal></goals>
+                <phase>integration-test</phase>
+                <configuration>
+                  <outputDirectory>${project.build.directory}/osgi</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${project.build.directory}/base-bin</directory>
+                      <includes><include>**</include></includes>
+                      <excludes>
+                        <exclude>doc/**</exclude>
+                        <exclude>docs/**</exclude>
+                        <exclude>**/*-javadoc.jar</exclude>
+                        <exclude>issuesFixed/**</exclude>
+                      </excludes>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <!-- copy any uima dependencies needed to osgi/lib
+               beyond what is done for the common build.
+               NOTE: can't just add dependencies, because
+                 a) local projects override scope to "provided" and
+                 b) this would result in the jars being copied for
+                    the common build -->
+         
+          <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>Copy uima dependencies to osgi/lib</id>
+                <goals><goal>copy</goal></goals>
+                <phase>process-resources</phase>
+                <configuration>
+                  <outputDirectory>${project.build.directory}/osgi/lib</outputDirectory>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.apache.uima</groupId>
+                      <artifactId>uimaj-core</artifactId>
+                      <version>${uimaDependencyVersion}</version>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin> 
+          
+          <plugin>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>maven-bundle-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>uima-bundle</id>
+                <phase>integration-test</phase>
+                <goals><goal>manifest</goal></goals>
+                <configuration>
+                  <buildDirectory>${project.build.directory}/osgi</buildDirectory>
+                  <manifestLocation>${project.build.directory}/osgi/META-INF</manifestLocation>
+                  <instructions>
+                    <Import-Package>org.apache.log.*;resolution:=optional</Import-Package>
+                    <Embed-Dependency>*;scope=compile;</Embed-Dependency>
+                    <Embed-Directory>lib</Embed-Directory>
+                    <Bundle-RequiredExecutionEnvironment>J2SE-1.5</Bundle-RequiredExecutionEnvironment>
+                    <Eclipse-ExtensibleAPI>true</Eclipse-ExtensibleAPI>
+                    <Bundle-ClassPath>.,lib/${project.build.finalName}.jar,{maven-dependencies},lib/uimaj-core-${uimaDependencyVersion}.jar</Bundle-ClassPath>
+                    <Include-Resource>
+                      {maven-resources}, {maven-dependencies},
+                      lib/uimaj-core-${uimaDependencyVersion}.jar=${settings.localRepository}/org/apache/uima/uimaj-core/${uimaDependencyVersion}/uimaj-core-${uimaDependencyVersion}.jar
+                    </Include-Resource>
+                    <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
+                    <Bundle-SymbolicName>${project.groupId}.${project.artifactId};singleton:=true</Bundle-SymbolicName>
+                  </instructions>
+                </configuration>
+              </execution>
+            </executions>
+
+          </plugin>
+
+          <!-- Run JAR to create OSGi Jar -->          
+          <plugin>
+            <artifactId>maven-jar-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>Create OSGi Jar</id>
+                <goals><goal>jar</goal></goals>
+                <phase>integration-test</phase> <!-- after above build step -->
+                <configuration>
+                  <finalName>${project.groupId}.${project.artifactId}_${parsedVersion.osgiVersion}</finalName>
+                  <classifier>osgi</classifier>
+                  <classesDirectory>${project.build.directory}/osgi</classesDirectory>
+                  <archive>
+                    <manifestFile>${project.build.directory}/osgi/META-INF/MANIFEST.MF</manifestFile>
+                  </archive>
+                </configuration>                
+              </execution>
+            </executions>
+          </plugin>
+                             
+        </plugins>
+      </build>             
+    </profile>
+ 
+    <!-- ********************************** -->
+    <!-- *   Build Standard PEAR          * -->
+    <!-- ********************************** -->
+    <profile>
+      <id>build standard PEAR</id>
+      <activation>
+        <file>
+          <exists>marker-file-identifying-standard-pear</exists>
+        </file>
+      </activation>
+      <build>  
+        
+        <plugins>  
+                     
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              
+              <!-- add the contents of desc if it exists to the jar.  
+                   This puts the things like the WhitespaceTokenizer.xml file into the Jar
+                   and makes it easier for users to run this, without installing a pear. 
+                   The Tagger project uses this technique, for instance -->
+              <execution>
+                <id>copy desc so its contents can be found in Jar</id>
+                <goals><goal>copy-resources</goal></goals>
+                <phase>process-resources</phase>  <!-- required -->
+                <configuration>
+                  <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>desc</directory>
+                      <includes><include>**</include></includes>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+                   
+              <!-- copy the base-bin dir to the pearPackaging dir -->
+              <execution>
+                <id>Copy base-bin to pearPackaging</id>
+                <goals><goal>copy-resources</goal></goals>
+                <phase>integration-test</phase> <!-- after first copies from jar/docbk pkg -->
+                <configuration>
+                  <outputDirectory>${project.build.directory}/pearPackaging</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${project.build.directory}/base-bin</directory>
+                      <includes><include>**</include></includes>
+                      <excludes>
+                        <exclude>**/*-javadoc.jar</exclude>
+                      </excludes>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+                                      
+            </executions>
+          </plugin>
+          
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>          
+                <!-- turn on javadoc build for each module --> 
+                <phase>package</phase> 
+              </execution>
+            </executions>           
+          </plugin>
+          
+          <!-- build the PEAR -->
+          <plugin>
+            <groupId>org.apache.uima</groupId>
+            <artifactId>PearPackagingMavenPlugin</artifactId>
+            <version>2.4.0</version>
+            <extensions>true</extensions>        
+            <executions>
+              <execution>
+                <id>build uima annnotator Pear</id>
+                <goals><goal>package</goal></goals>
+                   <!-- needs to run after the jar is built
+                        after docbooks are packaged and copied to pearPackaging/doc folder -->
+                <phase>integration-test</phase>  <!-- after first copies from jar/docbk pkg -->
+                <configuration> 
+                  <datapath>$main_root/resources</datapath>
+                  <componentId>${project.artifactId}</componentId>
+                  <mainComponentDesc>${pearMainDescriptor}</mainComponentDesc>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>              
+
+          <!-- Attach PEAR artifact after PEAR is built -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-pear-artifact</id>
+                <phase>post-integration-test</phase>  
+                <goals><goal>attach-artifact</goal></goals>
+                <configuration>
+                  <artifacts>
+                    <artifact>
+                      <file>${project.build.directory}/${project.artifactId}.pear</file>
+                      <type>pear</type>
+                    </artifact>
+                  </artifacts>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+     
+        </plugins>
+        
+      </build>
+    </profile>
+    
+    <profile>
+      <id>m2e</id>
+      <activation>
+        <property>
+          <name>m2e.version</name>
+        </property>
+      </activation>
+      <build>
+        <pluginManagement>
+		      <plugins>
+		      
+		        <!--This plugin's configuration is used to store Eclipse m2e settings 
+		            only. It has no influence on the Maven build itself. -->
+		        <plugin>
+		          <groupId>org.eclipse.m2e</groupId>
+		          <artifactId>lifecycle-mapping</artifactId>
+		          <version>1.0.0</version>
+		          <configuration>
+		            <lifecycleMappingMetadata>
+		              <pluginExecutions>
+		              
+		                <!-- ***************************** -->
+		                <!-- IGNORE remote resources       -->
+		                <!-- ***************************** -->
+		                <pluginExecution>
+		                  <pluginExecutionFilter>
+		                    <groupId>org.apache.maven.plugins</groupId>
+		                    <artifactId>
+		                      maven-remote-resources-plugin
+		                    </artifactId>
+		                    <versionRange>[1,)</versionRange>
+		                    <goals>
+		                      <goal>process</goal>
+		                      <goal>bundle</goal>
+		                    </goals>
+		                  </pluginExecutionFilter>
+		                  <action>
+		                    <ignore />
+		                  </action>
+		                </pluginExecution>
+		                
+		                <!-- ***************************** -->
+		                <!-- EXECUTE parse-date-time       -->
+		                <!-- ***************************** -->
+		                <pluginExecution>
+		                  <pluginExecutionFilter>
+		                    <groupId>org.apache.uima</groupId>
+		                    <artifactId>
+		                      uima-build-helper-maven-plugin
+		                    </artifactId>
+		                    <versionRange>[2,)</versionRange>
+		                    <goals>
+		                      <goal>parse-date-time</goal>
+		                    </goals>
+		                  </pluginExecutionFilter>
+		                  <action>
+		                    <execute />
+		                  </action>
+		                </pluginExecution>
+		                
+		                <!-- ******************************* -->
+		                <!-- IGNORE dependency copy / unpack -->
+		                <!-- ******************************* -->
+		                <pluginExecution>
+		                  <pluginExecutionFilter>
+		                    <groupId>org.apache.maven.plugins</groupId>
+		                    <artifactId>maven-dependency-plugin</artifactId>
+		                    <versionRange>[2,)</versionRange>
+		                    <goals>
+		                      <goal>unpack</goal>
+		                      <goal>copy-dependencies</goal>
+		                      <goal>unpack-dependencies</goal>
+		                    </goals>
+		                  </pluginExecutionFilter>
+		                  <action>
+		                    <ignore />
+		                  </action>
+		                </pluginExecution>
+		                
+		                <!-- *********************************************** -->
+		                <!-- IGNORE enforcer - to avoid warning message      -->
+		                <!-- https://issues.apache.org/jira/browse/UIMA-3053 -->
+		                <!-- *********************************************** -->
+		                <pluginExecution>
+		                  <pluginExecutionFilter>
+		                    <groupId>org.apache.maven.plugins</groupId>
+		                    <artifactId>maven-enforcer-plugin</artifactId>
+		                    <versionRange>[1,)</versionRange>
+		                    <goals>
+		                      <goal>enforce</goal>
+		                    </goals>
+		                  </pluginExecutionFilter>
+		                  <action>
+		                    <ignore />
+		                  </action>
+		                </pluginExecution>		                
+		
+		                <!-- ******************************* -->
+		                <!-- IGNORE clearing old Manifest.MF -->
+		                <!-- at top level, needed by         -->    
+		                <!-- maven bundle plugin             -->
+		                <!-- ******************************* -->
+		                <pluginExecution>
+		                  <pluginExecutionFilter>
+		                    <groupId>org.apache.maven.plugins</groupId>
+		                    <artifactId>maven-antrun-plugin</artifactId>
+		                    <versionRange>[1.6,)</versionRange>
+		                    <goals>
+		                      <goal>run</goal>
+		                    </goals>
+		                  </pluginExecutionFilter>
+		                  <action>
+		                    <ignore />
+		                  </action>
+		                </pluginExecution>
+
+                    <!-- *********************************************** -->
+                    <!-- EXECUTE most javacc goals                       -->
+                    <!-- *********************************************** -->
+                    <pluginExecution>
+                      <pluginExecutionFilter>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>javacc-maven-plugin</artifactId>
+                        <versionRange>[2,)</versionRange>
+                        <goals>
+                          <goal>javacc</goal>
+                          <goal>jjtree-javacc</goal>
+                          <goal>jjtree</goal>
+                        </goals>
+                      </pluginExecutionFilter>
+                      <action>
+                        <execute />
+                      </action>
+                    </pluginExecution>                    
+
+                    <pluginExecution>
+                      <pluginExecutionFilter>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>javacc-maven-plugin</artifactId>
+                        <versionRange>[2,)</versionRange>
+                        <goals>
+                          <goal>jjdoc</goal>
+                        </goals>
+                      </pluginExecutionFilter>
+                      <action>
+                        <ignore />
+                      </action>
+                    </pluginExecution>                    
+		              </pluginExecutions>
+		            </lifecycleMappingMetadata>
+		          </configuration>
+		        </plugin>
+		      </plugins>
+		    </pluginManagement>
+      </build>
+    </profile>      
+  </profiles>
+ 
+</project>

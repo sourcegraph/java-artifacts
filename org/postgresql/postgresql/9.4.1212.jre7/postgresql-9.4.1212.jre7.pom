@@ -1,0 +1,97 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.postgresql</groupId>
+        <artifactId>pgjdbc-core-prevjre</artifactId>
+        <version>1.1.2</version>
+        <relativePath /><!-- do not print maven warnings when pgjdbc-jre7 is checked out under pgjdbc -->
+    </parent>
+
+    <artifactId>postgresql</artifactId>
+    <packaging>bundle</packaging>
+    <name>PostgreSQL JDBC Driver - JDBC 4.1</name>
+    <version>9.4.1212.jre7</version>
+    <description>Java JDBC 4.1 (JRE 7+) driver for PostgreSQL database</description>
+
+    <properties>
+        <javac.target>1.7</javac.target>
+        <postgresql.enforce.jdk.version>[1.7,1.8)</postgresql.enforce.jdk.version>
+        <jdbc.specification.version>4.1</jdbc.specification.version>
+        <jdbc.specification.version.nodot>41</jdbc.specification.version.nodot>
+        <skip.assembly>false</skip.assembly>
+        <skip.unzip-jdk-src>false</skip.unzip-jdk-src>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration combine.children="append">
+                    <testExcludes>
+                        <testExclude>**/jdbc42/**</testExclude>
+                    </testExcludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- If inherited from parent pom, maven tries to add artifactId to URLs -->
+    <scm>
+        <url>https://github.com/pgjdbc/pgjdbc-jre7</url>
+        <connection>scm:git:https://github.com/pgjdbc/pgjdbc-jre7.git</connection>
+        <developerConnection>scm:git:git@github.com:pgjdbc/pgjdbc-jre7.git</developerConnection>
+      <tag>REL9.4.1212.jre7</tag>
+  </scm>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>create-unzipjdkant.xml</id>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <phase>generate-sources</phase>
+                                <configuration>
+                                    <target>
+                                        <echo message="Generating ${unzip.jdk.ant.build.xml}" />
+                                        <!-- No one knows how to generate file with literal "${java.home}" content, so
+                                             we generate @{java.home}, and replace @ -> $ later.
+                                             ${java.home} should be resolved by Ant, not Maven -->
+                                        <echoxml file="${unzip.jdk.ant.build.xml}">
+                                            <project>
+                                                <unzip src="@{java.home}/../src.zip" dest="@{project.build.directory}/jdk-src">
+                                                    <patternset>
+                                                        <!-- Only specific classes are extracted as there are lots of
+                                                             "package sun.reflect does not exist" errors when compiling via
+                                                             JDK7's javadoc -->
+                                                        <include name="java/sql/**/*.java" />
+                                                        <include name="javax/sql/**/*.java" />
+                                                        <include name="javax/naming/**/*.java" />
+                                                        <include name="java/io/InputStream.java" />
+                                                        <include name="java/io/OutputStream.java" />
+                                                        <include name="java/io/FilterInputStream.java" />
+                                                        <include name="java/io/FilterOutputStream.java" />
+                                                    </patternset>
+                                                </unzip>
+                                            </project>
+                                        </echoxml>
+                                        <replace file="${unzip.jdk.ant.build.xml}" token="@" value="$" />
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>org.mule.transports</groupId>
+  <artifactId>mule-transport-sockets</artifactId>
+  <version>4.0-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20170222.195617</timestamp>
+      <buildNumber>1130</buildNumber>
+    </snapshot>
+    <lastUpdated>20170222195617</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>4.0-20170222.195617-1130</value>
+        <updated>20170222195617</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>4.0-20170222.195617-1130</value>
+        <updated>20170222195617</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>

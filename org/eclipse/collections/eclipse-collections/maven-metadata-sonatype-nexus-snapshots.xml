@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.eclipse.collections</groupId>
+  <artifactId>eclipse-collections</artifactId>
+  <versioning>
+    <versions>
+      <version>8.1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20170227143645</lastUpdated>
+  </versioning>
+</metadata>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>org.deeplearning4j</groupId>
+  <artifactId>deeplearning4j-scaleout-akka-word2vec</artifactId>
+  <version>0.0.3.2-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20140811.044153</timestamp>
+      <buildNumber>46</buildNumber>
+    </snapshot>
+    <lastUpdated>20140811044153</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>0.0.3.2-20140811.044153-46</value>
+        <updated>20140811044153</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>0.0.3.2-20140811.044153-46</value>
+        <updated>20140811044153</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>

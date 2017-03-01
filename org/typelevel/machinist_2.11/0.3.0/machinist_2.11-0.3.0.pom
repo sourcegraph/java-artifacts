@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.typelevel</groupId>
+    <artifactId>machinist_2.11</artifactId>
+    <packaging>jar</packaging>
+    <description>machinist</description>
+    <url>http://typelevel.org</url>
+    <version>0.3.0</version>
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>http://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <name>machinist</name>
+    <organization>
+        <name>org.typelevel</name>
+        <url>http://typelevel.org</url>
+    </organization>
+    <scm>
+        <url>https://github.com/non/machinist</url>
+        <connection>scm:git:git://github.com/non/machinist.git</connection>
+    </scm>
+    <developers>
+        <developer>
+            <id>d_m</id>
+            <name>Erik Osheim</name>
+            <url>http://github.com/non/</url>
+        </developer>
+    </developers>
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-compiler</artifactId>
+            <version>2.11.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-reflect</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+    </dependencies>
+</project>

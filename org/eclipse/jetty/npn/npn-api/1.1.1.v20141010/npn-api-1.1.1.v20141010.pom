@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-parent</artifactId>
+        <version>20</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.eclipse.jetty.npn</groupId>
+    <artifactId>npn-api</artifactId>
+    <version>1.1.1.v20141010</version>
+    <name>Jetty :: Next Protocol Negotiation :: API</name>
+
+    <scm>
+        <connection>scm:git:http://git.eclipse.org/gitroot/jetty/org.eclipse.jetty.npn.git</connection>
+        <developerConnection>scm:git:ssh://git.eclipse.org/gitroot/jetty/org.eclipse.jetty.npn.git</developerConnection>
+        <url>http://git.eclipse.org/c/jetty/org.eclipse.jetty.npn.git/tree</url>
+    </scm>
+
+    <properties>
+        <bundle-symbolic-name>org.eclipse.jetty.npn.api</bundle-symbolic-name>
+        <bundle-doc-url>http://www.eclipse.org/jetty/documentation/current/npn-chapter.html</bundle-doc-url>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <configuration>
+                    <rules>
+                        <requireJavaVersion>
+                            <version>[1.7,)</version>
+                        </requireJavaVersion>
+                    </rules>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                        <configuration>
+                            <instructions>
+                                <_versionpolicy>[$(version;==;$(@)),$(version;+;$(@)))</_versionpolicy>
+                                <Bundle-RequiredExecutionEnvironment>J2SE-1.7</Bundle-RequiredExecutionEnvironment>
+                                <Bundle-DocURL>${bundle-doc-url}</Bundle-DocURL>
+                                <Bundle-Vendor>Eclipse Jetty Project</Bundle-Vendor>
+                                <Bundle-SymbolicName>${bundle-symbolic-name}</Bundle-SymbolicName>
+                                <Bundle-Copyright>Copyright (c) 2008-2013 Mort Bay Consulting Pty. Ltd.</Bundle-Copyright>
+                                <Export-Package>
+                                    org.eclipse.jetty.npn.*;version="${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}"
+                                </Export-Package>
+                                <Import-Package>*</Import-Package>
+                                <Bundle-Description>Next Protocol Negotiation API.</Bundle-Description>
+                            </instructions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <!-- Required for OSGI -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
